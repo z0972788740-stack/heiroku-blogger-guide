@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>平祿壽司 × Blogger Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700;900&family=Noto+Serif+TC:wght@400;700&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root {
+  --crimson: #8B0000;
+  --crimson-pale: #F9ECEC;
+  --gold: #BFA46F;
+  --gold-light: #D4BA86;
+  --cream: #F7F1E8;
+  --cream-dark: #EDE6D6;
+  --ink: #1A1208;
+  --ink-mid: #3D3020;
+  --ink-soft: #7A6A52;
+  --white: #FFFFFF;
+  --shadow: 0 2px 20px rgba(26,18,8,0.08);
+  --shadow-hover: 0 8px 40px rgba(139,0,0,0.15);
+  --radius: 16px;
+  --radius-sm: 10px;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color: var(--ink); font-size: 15px; line-height: 1.7; -webkit-font-smoothing: antialiased; }
+
+.hero { background: var(--crimson); min-height: 100svh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 48px 24px; position: relative; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.04) 39px,rgba(255,255,255,.04) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.04) 39px,rgba(255,255,255,.04) 40px); }
+.hero::after { content: ''; position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%); width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle,rgba(191,164,111,.18) 0%,transparent 70%); }
+.hero-inner { position: relative; z-index: 1; text-align: center; max-width: 480px; animation: fadeUp .8s ease both; }
+.hero-badge { display: inline-block; border: 1px solid rgba(191,164,111,.5); color: var(--gold-light); font-size: 11px; letter-spacing: .2em; padding: 6px 18px; border-radius: 100px; margin-bottom: 28px; font-weight: 500; }
+.hero-logo-jp { font-family: 'Noto Serif TC',serif; font-size: 13px; color: rgba(247,241,232,.5); letter-spacing: .35em; margin-bottom: 12px; }
+.hero-title { font-family: 'Noto Serif TC',serif; font-size: clamp(38px,10vw,56px); color: var(--cream); font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+.hero-en { font-family: 'DM Serif Display',serif; font-size: clamp(14px,4vw,18px); color: var(--gold); letter-spacing: .15em; margin-bottom: 32px; font-style: italic; }
+.hero-desc { color: rgba(247,241,232,.75); font-size: 14px; line-height: 1.85; margin-bottom: 44px; font-weight: 300; }
+.hero-btn { display: inline-flex; align-items: center; gap: 10px; background: var(--gold); color: var(--ink); font-size: 14px; font-weight: 700; padding: 16px 36px; border-radius: 100px; letter-spacing: .05em; transition: all .25s; cursor: pointer; border: none; }
+.hero-btn:hover { background: var(--gold-light); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+
+.section { padding: 72px 20px; max-width: 600px; margin: 0 auto; }
+.sec-label { font-size: 10px; letter-spacing: .3em; color: var(--crimson); font-weight: 700; text-transform: uppercase; margin-bottom: 8px; display: flex; align-items: center; gap: 10px; }
+.sec-label::after { content: ''; flex: 1; height: 1px; background: var(--crimson); opacity: .2; }
+.sec-title { font-family: 'Noto Serif TC',serif; font-size: clamp(22px,6vw,30px); font-weight: 700; color: var(--ink); margin-bottom: 32px; line-height: 1.35; }
+.bg-white { background: var(--white); }
+
+.tagline-box { background: var(--crimson); color: var(--cream); border-radius: var(--radius); padding: 28px 24px; margin-bottom: 32px; position: relative; overflow: hidden; }
+.tagline-box::before { content: '「'; position: absolute; top: -10px; left: 12px; font-size: 80px; color: rgba(191,164,111,.15); font-family: 'Noto Serif TC',serif; line-height: 1; }
+.tagline-box p { font-family: 'Noto Serif TC',serif; font-size: 15px; line-height: 1.9; position: relative; z-index: 1; }
+.tagline-box .src { font-size: 11px; color: var(--gold); margin-top: 12px; letter-spacing: .1em; }
+
+.name-meaning { display: flex; gap: 12px; margin-bottom: 32px; }
+.nm-card { flex: 1; background: var(--white); border-radius: var(--radius-sm); padding: 18px 14px; box-shadow: var(--shadow); text-align: center; }
+.nm-char { font-family: 'Noto Serif TC',serif; font-size: 32px; font-weight: 700; color: var(--crimson); margin-bottom: 8px; }
+.nm-title { font-size: 11px; font-weight: 700; color: var(--gold); letter-spacing: .1em; margin-bottom: 6px; }
+.nm-desc { font-size: 12px; color: var(--ink-mid); line-height: 1.6; }
+
+.timeline { position: relative; padding-left: 28px; }
+.timeline::before { content: ''; position: absolute; left: 6px; top: 8px; bottom: 8px; width: 1px; background: linear-gradient(to bottom,var(--crimson),var(--gold),transparent); }
+.tl-item { position: relative; margin-bottom: 28px; }
+.tl-item::before { content: ''; position: absolute; left: -25px; top: 6px; width: 10px; height: 10px; border-radius: 50%; background: var(--crimson); border: 2px solid var(--cream); box-shadow: 0 0 0 2px var(--crimson); }
+.tl-year { font-family: 'DM Serif Display',serif; font-size: 13px; color: var(--crimson); font-weight: 700; letter-spacing: .1em; margin-bottom: 4px; }
+.tl-text { font-size: 14px; color: var(--ink-mid); line-height: 1.7; }
+
+.tabs { display: flex; gap: 8px; margin-bottom: 20px; overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; padding-bottom: 4px; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab-btn { flex-shrink: 0; padding: 10px 20px; border-radius: 100px; border: 1.5px solid var(--cream-dark); background: var(--white); font-size: 13px; font-weight: 500; color: var(--ink-soft); cursor: pointer; transition: all .2s; white-space: nowrap; }
+.tab-btn.active { background: var(--crimson); border-color: var(--crimson); color: var(--cream); }
+.store-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: none; animation: fadeUp .4s ease both; }
+.store-card.active { display: block; }
+.sc-head { background: var(--crimson); padding: 24px 24px 20px; color: var(--cream); }
+.sc-tag { font-size: 10px; letter-spacing: .25em; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
+.sc-name { font-family: 'Noto Serif TC',serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+.sc-desc { font-size: 13px; color: rgba(247,241,232,.75); line-height: 1.7; }
+.sc-body { padding: 24px; }
+.sc-sub { font-size: 11px; letter-spacing: .2em; color: var(--crimson); font-weight: 700; margin-bottom: 12px; margin-top: 24px; }
+.sc-sub:first-child { margin-top: 0; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
+.chip { padding: 6px 14px; border-radius: 100px; font-size: 12px; font-weight: 500; }
+.chip-r { background: var(--crimson-pale); color: var(--crimson); }
+.chip-g { background: #F5EDD8; color: #8A6A20; }
+.chip-s { background: #F2EDE6; color: var(--ink-soft); }
+.info-row { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: var(--ink-mid); margin-bottom: 10px; }
+.info-row .ic { font-size: 15px; flex-shrink: 0; margin-top: 1px; }
+.tip-box { font-size: 13px; color: var(--ink-mid); line-height: 1.7; background: var(--cream); border-radius: 8px; padding: 12px 14px; border-left: 3px solid var(--gold); }
+
+.cl-progress { background: var(--white); border-radius: var(--radius); padding: 20px 20px 16px; margin-bottom: 20px; box-shadow: var(--shadow); text-align: center; }
+.ring-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; margin-bottom: 8px; }
+.ring { transform: rotate(-90deg); }
+.ring-bg { fill: none; stroke: var(--cream-dark); stroke-width: 6; }
+.ring-fill { fill: none; stroke: var(--crimson); stroke-width: 6; stroke-linecap: round; transition: stroke-dashoffset .5s ease; }
+.ring-pct { position: absolute; font-family: 'DM Serif Display',serif; font-size: 22px; color: var(--crimson); font-weight: 700; }
+.ring-label { font-size: 12px; color: var(--ink-soft); }
+.cl-cat { background: var(--white); border-radius: var(--radius); margin-bottom: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.cl-cat-hd { padding: 14px 18px; background: var(--cream); font-size: 12px; font-weight: 700; color: var(--ink-soft); letter-spacing: .15em; border-bottom: 1px solid var(--cream-dark); }
+.cl-item { display: flex; align-items: center; gap: 14px; padding: 13px 18px; border-bottom: 1px solid var(--cream-dark); cursor: pointer; transition: background .15s; }
+.cl-item:last-child { border-bottom: none; }
+.cl-item:hover { background: var(--cream); }
+.cl-box { width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--cream-dark); flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all .2s; font-size: 13px; }
+.cl-item.checked .cl-box { background: var(--crimson); border-color: var(--crimson); color: white; }
+.cl-text { font-size: 14px; color: var(--ink-mid); transition: all .2s; }
+.cl-item.checked .cl-text { color: var(--ink-soft); text-decoration: line-through; }
+.cl-note { font-size: 11px; color: var(--gold); margin-left: auto; flex-shrink: 0; font-weight: 500; }
+
+/* 推薦拍攝餐點：新品/限定 切換按鈕（分店卡片內） */
+.menu-type-tabs { display: flex; gap: 10px; margin-bottom: 16px; }
+.mtype-btn { flex: 1; padding: 14px 12px; border-radius: var(--radius-sm); border: 1.5px solid var(--cream-dark); background: var(--white); font-size: 13px; font-weight: 600; color: var(--ink-soft); cursor: pointer; transition: all .2s; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.mtype-btn .em { font-size: 22px; }
+.mtype-btn.act-new { background: var(--crimson); border-color: var(--crimson); color: var(--cream); box-shadow:0 4px 12px rgba(139,0,0,.18); }
+.mtype-btn.act-lim { background: #6B3A00; border-color: #6B3A00; color: var(--cream); box-shadow:0 4px 12px rgba(107,58,0,.22); }
+.mpanel { display: none; animation: fadeUp .35s ease both; }
+.mpanel.active { display: block; }
+.m-empty { text-align: center; padding: 28px 18px; color: var(--ink-soft); font-size: 13px; background: var(--cream); border-radius: var(--radius-sm); border:1px dashed var(--cream-dark); }
+.m-empty-ic { font-size: 28px; margin-bottom: 8px; opacity: .4; }
+
+/* 餐點卡片（1:1 圖片，手機 1 欄、桌機 2 欄） */
+.menu-grid { display:grid; grid-template-columns:1fr; gap:14px; }
+@media (min-width: 720px) { .menu-grid { grid-template-columns: 1fr 1fr; gap:18px; } }
+.mi-card { background:var(--white); border:1px solid var(--cream-dark); border-radius:var(--radius-sm); overflow:hidden; box-shadow:var(--shadow); transition: box-shadow .25s ease, transform .25s ease; }
+.mi-card:hover { box-shadow:var(--shadow-hover); transform:translateY(-2px); }
+.mi-imgwrap { position:relative; width:100%; aspect-ratio:1/1; background:var(--cream-dark); overflow:hidden; }
+.mi-imgwrap img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+.mi-ph { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background: linear-gradient(135deg, var(--cream-dark) 0%, #d8cdb4 100%); color: var(--ink-soft); }
+.mi-ph-ic { font-size:36px; opacity:.45; }
+.mi-ph-lbl { font-size:12px; letter-spacing:.15em; font-weight:500; }
+.mi-ph-path { font-size:10px; color:var(--ink-soft); opacity:.75; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; word-break: break-all; padding: 0 12px; text-align:center; line-height:1.55; max-width:100%; }
+.mi-body { padding:14px 16px 16px; }
+.mi-head { display:flex; align-items:baseline; justify-content:space-between; gap:10px; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--cream-dark); }
+.mi-name { font-family:'Noto Serif TC',serif; font-size:15px; font-weight:700; color:var(--ink); flex:1; line-height:1.4; }
+.mi-price { font-family:'DM Serif Display',serif; font-size:18px; font-weight:700; color:var(--crimson); flex-shrink:0; white-space:nowrap; }
+.mi-price.lim { color:#6B3A00; }
+.mi-section { margin-top:12px; }
+.mi-section:first-child { margin-top:0; }
+.mi-sec-ttl { font-size:10px; letter-spacing:.2em; color:var(--crimson); font-weight:700; margin-bottom:6px; }
+.mi-sec-ttl.lim { color:#6B3A00; }
+.mi-intro { font-size:12.5px; color:var(--ink-mid); line-height:1.75; }
+.mi-empty { color:var(--ink-soft); font-style:italic; opacity:.7; font-size:12px; }
+.mi-angles { list-style:none; margin:0; padding:0; }
+.mi-angles li { font-size:12.5px; color:var(--ink-mid); padding:3px 0 3px 14px; position:relative; line-height:1.7; }
+.mi-angles li::before { content:'↗'; position:absolute; left:0; color:var(--gold); font-size:11px; }
+.mi-kws { display:flex; flex-wrap:wrap; gap:6px; }
+.mi-kw { background:var(--crimson-pale); color:var(--crimson); font-size:11.5px; padding:3px 10px; border-radius:100px; font-weight:500; }
+.mi-kw.lim { background:#F5EDD8; color:#6B3A00; }
+
+.script-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.s-block { display: flex; border-bottom: 1px solid var(--cream-dark); }
+.s-block:last-child { border-bottom: none; }
+.s-time { width: 80px; flex-shrink: 0; background: var(--crimson); color: var(--cream); padding: 20px 14px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; }
+.s-range { font-family: 'DM Serif Display',serif; font-size: 15px; font-weight: 700; line-height: 1.2; }
+.s-lbl { font-size: 9px; letter-spacing: .1em; color: var(--gold); font-weight: 700; }
+.s-content { flex: 1; padding: 18px; }
+.s-ttl { font-size: 12px; font-weight: 700; color: var(--ink); margin-bottom: 8px; }
+.s-shots { font-size: 12px; color: var(--ink-soft); margin-bottom: 10px; line-height: 1.7; }
+.s-eg { background: var(--cream); border-radius: 8px; padding: 10px 14px; font-size: 12px; color: var(--ink-mid); border-left: 3px solid var(--gold); line-height: 1.7; }
+.s-eg-lbl { font-size: 10px; color: var(--gold); font-weight: 700; letter-spacing: .1em; margin-bottom: 4px; }
+
+.acc { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
+.acc-item { border-bottom: 1px solid var(--cream-dark); }
+.acc-item:last-child { border-bottom: none; }
+.acc-toggle { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 18px 20px; background: none; border: none; cursor: pointer; text-align: left; gap: 12px; }
+.acc-left { display: flex; align-items: center; gap: 12px; }
+.acc-ic { font-size: 18px; }
+.acc-ttl { font-size: 14px; font-weight: 700; color: var(--ink); }
+.acc-arr { font-size: 16px; color: var(--ink-soft); transition: transform .25s; }
+.acc-item.open .acc-arr { transform: rotate(180deg); }
+.acc-body { max-height: 0; overflow: hidden; transition: max-height .35s ease; }
+.acc-inner { padding: 0 20px 20px 50px; }
+.acc-list { list-style: none; }
+.acc-list li { font-size: 13px; color: var(--ink-mid); padding: 6px 0 6px 16px; position: relative; border-bottom: 1px solid var(--cream-dark); line-height: 1.7; }
+.acc-list li:last-child { border-bottom: none; }
+.acc-list li::before { content: '・'; position: absolute; left: 0; color: var(--crimson); }
+
+.links-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 24px; }
+.link-card { background: var(--white); border-radius: var(--radius-sm); padding: 18px 16px; box-shadow: var(--shadow); text-align: center; text-decoration: none; display: block; transition: all .2s; }
+.link-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-hover); }
+.lc-ic { font-size: 26px; margin-bottom: 8px; }
+.lc-lbl { font-size: 11px; font-weight: 700; color: var(--ink-soft); letter-spacing: .1em; margin-bottom: 4px; }
+.lc-val { font-size: 13px; font-weight: 700; color: var(--crimson); }
+.lc-ph { font-size: 12px; color: var(--ink-soft); font-style: italic; }
+.ty { background: var(--crimson); padding: 72px 24px; text-align: center; position: relative; overflow: hidden; }
+.ty::before { content: ''; position: absolute; inset: 0; background-image: repeating-linear-gradient(45deg,transparent,transparent 20px,rgba(255,255,255,.02) 20px,rgba(255,255,255,.02) 21px); }
+.ty-inner { position: relative; z-index: 1; max-width: 440px; margin: 0 auto; }
+.ty-em { font-size: 48px; margin-bottom: 20px; }
+.ty-ttl { font-family: 'Noto Serif TC',serif; font-size: 26px; color: var(--cream); font-weight: 700; margin-bottom: 16px; }
+.ty-txt { font-size: 14px; color: rgba(247,241,232,.75); line-height: 1.85; margin-bottom: 32px; white-space: pre-line; }
+/* ============== 閱讀進度條 ============== */
+.read-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: rgba(26,18,8,0.06);
+  z-index: 200;
+  pointer-events: none;
+}
+.read-progress__bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--crimson) 0%, var(--gold) 100%);
+  box-shadow: 0 0 8px rgba(139,0,0,.45);
+  transition: width .12s linear;
+  border-radius: 0 2px 2px 0;
+}
+.read-progress__pct {
+  position: fixed;
+  top: 10px;
+  right: 14px;
+  z-index: 201;
+  background: rgba(26,18,8,.85);
+  backdrop-filter: blur(8px);
+  color: var(--cream);
+  font-family: 'DM Serif Display', serif;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .08em;
+  padding: 4px 10px;
+  border-radius: 100px;
+  opacity: 0;
+  transform: translateY(-6px);
+  transition: opacity .25s ease, transform .25s ease;
+  pointer-events: none;
+}
+.read-progress__pct.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ============== 強化浮動導覽 ============== */
+.fnav {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: rgba(26,18,8,.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(191,164,111,.18);
+  border-radius: 100px;
+  padding: 8px 8px;
+  display: flex;
+  gap: 2px;
+  z-index: 100;
+  box-shadow: 0 8px 32px rgba(0,0,0,.35), 0 0 0 1px rgba(255,255,255,.03) inset;
+  transition: transform .35s cubic-bezier(.4,0,.2,1), opacity .35s ease;
+  max-width: calc(100vw - 24px);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.fnav::-webkit-scrollbar { display: none; }
+.fnav.hide {
+  transform: translate(-50%, 120%);
+  opacity: 0;
+  pointer-events: none;
+}
+.fn-btn {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 8px 12px;
+  border-radius: 100px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background .25s ease, transform .15s ease;
+  text-decoration: none;
+  flex-shrink: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.fn-btn:active {
+  transform: scale(.92);
+}
+.fn-btn:hover {
+  background: rgba(191,164,111,.12);
+}
+.fn-ic {
+  font-size: 16px;
+  transition: transform .25s ease;
+}
+.fn-lbl {
+  font-size: 9px;
+  color: rgba(247,241,232,.7);
+  font-weight: 500;
+  white-space: nowrap;
+  transition: color .25s ease;
+}
+.fn-btn.active {
+  background: var(--crimson);
+  box-shadow: 0 4px 16px rgba(139,0,0,.55);
+}
+.fn-btn.active .fn-ic {
+  transform: scale(1.1);
+}
+.fn-btn.active .fn-lbl {
+  color: var(--gold-light);
+  font-weight: 700;
+}
+.fn-btn.active::after {
+  content: '';
+  position: absolute;
+  bottom: -6px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--gold);
+  box-shadow: 0 0 6px var(--gold);
+}
+
+/* ============== 回到頂部按鈕 ============== */
+.to-top {
+  position: fixed;
+  right: 18px;
+  bottom: 92px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--crimson);
+  border: 2px solid var(--gold);
+  color: var(--cream);
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 99;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 6px 20px rgba(139,0,0,.4);
+  opacity: 0;
+  transform: translateY(20px) scale(.85);
+  pointer-events: none;
+  transition: opacity .3s ease, transform .3s cubic-bezier(.4,0,.2,1), background .2s;
+}
+.to-top.show {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+.to-top:hover {
+  background: var(--gold);
+  color: var(--ink);
+}
+.to-top:active {
+  transform: translateY(0) scale(.9);
+}
+
+@media (max-width: 380px) {
+  .fn-btn { padding: 8px 8px; }
+  .fn-lbl { font-size: 8px; }
+  .to-top { right: 12px; bottom: 86px; width: 40px; height: 40px; }
+}
+
+/* ============== Hero Logo ============== */
+.hero-logo { display:block; height:64px; width:auto; max-width:80%; margin:0 auto 22px; object-fit:contain; filter: drop-shadow(0 2px 10px rgba(0,0,0,.25)); animation: fadeUp .8s ease both; }
+@media (min-width: 720px) {
+  .hero-logo { height: 80px; margin-bottom: 26px; }
+}
+
+/* ============== 分店環境導覽 ============== */
+.sg-section { margin-top: 28px; }
+.sg-tabs { display:flex; gap:8px; margin-bottom:20px; overflow-x:auto; -webkit-overflow-scrolling:touch; scrollbar-width:none; padding-bottom:4px; }
+.sg-tabs::-webkit-scrollbar { display:none; }
+.sg-tab { flex-shrink:0; padding:10px 20px; border-radius:100px; border:1.5px solid var(--cream-dark); background:var(--white); font-size:13px; font-weight:500; color:var(--ink-soft); cursor:pointer; transition: all .2s; white-space:nowrap; }
+.sg-tab:hover { border-color: var(--gold-light); color: var(--ink-mid); }
+.sg-tab.active { background:var(--crimson); border-color:var(--crimson); color:var(--cream); box-shadow:0 4px 12px rgba(139,0,0,.18); }
+.sg-panel { display:none; animation: fadeUp .4s ease both; }
+.sg-panel.active { display:block; }
+.sg-grid { display:grid; grid-template-columns: 1fr; gap:16px; }
+@media (min-width: 720px) {
+  .sg-grid { grid-template-columns: 1fr 1fr; gap:20px; }
+}
+.sg-card { background:var(--white); border-radius:var(--radius); overflow:hidden; box-shadow:var(--shadow); transition: box-shadow .25s ease, transform .25s ease; }
+.sg-card:hover { box-shadow:var(--shadow-hover); transform:translateY(-2px); }
+.sg-imgwrap { position:relative; width:100%; aspect-ratio: 4 / 3; overflow:hidden; background: var(--cream-dark); }
+.sg-imgwrap img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+.sg-ph { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; background: linear-gradient(135deg, var(--cream-dark) 0%, #d8cdb4 100%); color: var(--ink-soft); }
+.sg-ph-ic { font-size:36px; opacity:.45; }
+.sg-ph-lbl { font-size:12px; letter-spacing:.15em; font-weight:500; }
+.sg-body { padding:14px 16px 18px; }
+.sg-name { font-family:'Noto Serif TC',serif; font-size:15px; font-weight:700; color:var(--ink); line-height:1.4; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- 閱讀進度條 -->
+<div class="read-progress" id="read-progress">
+  <div class="read-progress__bar" id="read-progress-bar"></div>
+</div>
+<div class="read-progress__pct" id="read-progress-pct">0%</div>
+
+<script>
+const DATA = {
+  brand: {
+    tagline: "來自日本仙台的迴轉壽司品牌，結合冰鮮鮭魚、自助飲料吧、多元座位空間與特色送餐設備，打造適合家庭、朋友、情侶與一人用餐的日式聚餐體驗。",
+    origin: "來自日本仙台的迴轉壽司品牌，打造有趣、舒適、適合聚餐的日式用餐體驗。",
+  },
+  nameMeaning: [
+    { char:"平", title:"公平・公正・實在", desc:"不偷工減料，重視餐點品質與用料誠信。" },
+    { char:"祿", title:"幸福・滿足", desc:"希望每位顧客都能感受到幸福的用餐體驗。" },
+  ],
+  timeline: [
+    { year:"1958", text:"前身元祿壽司品牌於大阪創立。" },
+    { year:"1967", text:"創辦人江川金鐘先生（來自台灣苗栗苑裡）於宮城縣仙台市開設東日本第一家迴轉壽司店。受中華料理圓形轉盤啟發，推動迴轉壽司文化發展。" },
+    { year:"1996", text:"東日本由江川先生經營的品牌正式更名為「平祿壽司」。" },
+    { year:"2019", text:"台灣第一間分店「五權店」於台中北區五權路開設。" },
+    { year:"2023", text:"第二間分店「松竹店」於台中北屯松竹路開設。" },
+    { year:"2025", text:"第三間分店「永順店」於台中南屯永順路開設。" },
+  ],
+  // 分店環境導覽：tabs（歷史介紹／五權店／松竹店／永順店）
+  // 歷史介紹預設展開，內容沿用 DATA.timeline
+  storeGallery: [
+    { id:"wuquan", name:"五權店", items:[
+      { title:"領檯設計",            src:"assets/images/stores/wuquan/reception.jpg",     desc:"呈現五權店接待區與品牌第一印象。" },
+      { title:"門口設計",            src:"assets/images/stores/wuquan/entrance.jpg",      desc:"呈現五權店外觀，適合作為探店影片開場畫面。" },
+      { title:"吧台設計",            src:"assets/images/stores/wuquan/counter.jpg",       desc:"經典吧台座位，適合一人用餐與壽司近距離拍攝。" },
+      { title:"新幹線、火箭送餐車",  src:"assets/images/stores/wuquan/delivery-car.jpg",  desc:"特色送餐設備，增加用餐互動感與短影音亮點。" },
+    ]},
+    { id:"songzhu", name:"松竹店", items:[
+      { title:"領檯設計",                src:"assets/images/stores/songzhu/reception.jpg",            desc:"展現松竹店接待區與日式品牌氛圍。" },
+      { title:"門口設計",                src:"assets/images/stores/songzhu/entrance.jpg",             desc:"適合作為探店影片開場畫面。" },
+      { title:"包廂用餐區",              src:"assets/images/stores/songzhu/private-room.jpg",         desc:"適合家庭、親子與朋友聚餐，具用餐隱私感。" },
+      { title:"飲料自助吧",              src:"assets/images/stores/songzhu/drink-bar.jpg",            desc:"分店特色之一，適合拍攝自助取飲料畫面。" },
+      { title:"七夕彩球",                src:"assets/images/stores/songzhu/tanabata-ball.jpg",        desc:"具有節慶感與拍照記憶點。" },
+      { title:"加蓋型動物造型送餐車",    src:"assets/images/stores/songzhu/animal-delivery-car.jpg",  desc:"親子客群喜愛的互動亮點。" },
+      { title:"布簾設計",                src:"assets/images/stores/songzhu/noren-curtain.jpg",        desc:"增加座位隱私感，也呈現日式用餐氛圍。" },
+    ]},
+    { id:"yongshun", name:"永順店", items:[
+      { title:"門口設計",                src:"assets/images/stores/yongshun/entrance.jpg",            desc:"呈現永順店新分店外觀與探店開場畫面。" },
+      { title:"包廂用餐區",              src:"assets/images/stores/yongshun/dining-area1.jpg",        desc:"適合家庭與朋友聚餐，呈現舒適聚餐空間。" },
+      { title:"吧台用餐區",              src:"assets/images/stores/yongshun/dining-area2.jpg",        desc:"適合一人用餐、情侶用餐與近距離拍攝餐點。" },
+      { title:"飲料自助吧",              src:"assets/images/stores/yongshun/drink-bar.jpg",           desc:"19 種飲品選擇，是永順店重要拍攝亮點。" },
+      { title:"加蓋型動物造型送餐車",    src:"assets/images/stores/yongshun/animal-delivery-car.jpg", desc:"增加用餐趣味與短影音互動感。" },
+      { title:"布簾設計",                src:"assets/images/stores/yongshun/noren-curtain.jpg",       desc:"呈現日式氛圍與座位隱私感。" },
+    ]},
+  ],
+  stores: [
+    { id:"wuquan",   name:"五權店", tag:"台灣第一間分店・2019",     desc:"平祿壽司台灣起點店，主打品牌歷史與經典迴轉壽司體驗。",                       address:"台中市北區五權路409號",         phone:"04-2206-9688", style:"日式經典迴轉壽司風格，傳統日本元素搭配吧台用餐氛圍。",                drinks:"基本飲品供應，免費暢飲。",                                          features:["台灣第一間分店","經典迴轉壽司","吧台座位","一人用餐佳"] },
+    { id:"songzhu",  name:"松竹店", tag:"親子聚餐・家庭友善・2023", desc:"適合家庭、親子與朋友聚餐的舒適分店，布簾包廂設計提供隱私感。",                 address:"台中市北屯區松竹路三段362號",   phone:"04-2298-1668", style:"日式溫馨聚餐風格，包廂、布簾與家庭友善空間，隱私感佳。",              drinks:"飲料自助吧・自由暢飲，適合拍攝取飲料與親子互動畫面。",              features:["飲料自助吧","包廂座位","布簾隱私感","親子聚餐","朋友聚餐","動物造型送餐車"] },
+    { id:"yongshun", name:"永順店", tag:"升級版・19種飲品・2025",   desc:"平祿壽司最新分店，飲料自助吧升級至19種選擇，結合包廂與吧台多元座位設計。",     address:"台中市南屯區永順路599號",       phone:"04-2470-1689", style:"日式現代聚餐風格，新分店空間感，多元座位設計，視覺亮眼。",            drinks:"飲料自助吧升級 19 種選擇・最適合拍攝飲品牆與多樣選擇。",            features:["飲料自助吧19種","包廂座位","吧台座位","多元座位選擇","新穎空間感","動物造型送餐車"] },
+  ],
+  checklist: [
+    { cat:"🍣 餐點亮點", items:[{t:"冰鮮鮭魚",n:"必拍"},{t:"新品上市",n:""},{t:"分店限定餐點",n:""}] },
+    { cat:"🏮 空間亮點", items:[{t:"門口／招牌",n:""},{t:"吧台座位",n:""},{t:"飲料自助吧",n:""},{t:"迴轉壽司台",n:""},{t:"門簾設計特寫",n:"松竹・永順"},{t:"包廂座位",n:"松竹・永順"}] },
+    { cat:"✨ 體驗亮點", items:[{t:"QR Code 點餐",n:""},{t:"迴轉壽司取餐",n:""},{t:"動物造型送餐車",n:"必拍"},{t:"帶位機器人",n:""},{t:"自助飲料吧取飲料",n:""},{t:"小丑氣球互動",n:""},{t:"餐點大合照",n:""}] },
+  ],
+  // 推薦拍攝餐點：新品上市為三間分店共用；限定餐點依分店分別顯示
+  // 「intro / angles / kws」欄位皆保留（待補）狀態，由內部後續補上
+  menuNew: [
+    { name:"卡達菲鰻魚堡",       price:60, en:"Kataifi Eel Burger",                     img:"assets/images/menu/new/kataifi-eel-burger.png",                     intro:"", angles:[], kws:[] },
+    { name:"卡達菲扇貝握壽司",   price:40, en:"Kataifi Scallop Nigiri Sushi",           img:"assets/images/menu/new/kataifi-scallop-nigiri-sushi.png",           intro:"", angles:[], kws:[] },
+    { name:"卡達菲海陸握壽司",   price:60, en:"Kataifi Seafood and Land Nigiri Sushi",  img:"assets/images/menu/new/kataifi-seafood-and-land-nigiri-sushi.png",  intro:"", angles:[], kws:[] },
+    { name:"深海紅蟹爪下",       price:70, en:"Deep Sea Red Crab Claw",                 img:"assets/images/menu/new/deep-sea-red-crab-claw.png",                 intro:"", angles:[], kws:[] },
+  ],
+  menuLimited: {
+    wuquan: [
+      { name:"滿盛玉子燒",         price:40, en:"Full Tamagoyaki",          img:"assets/images/menu/limited/wuquan/full-tamagoyaki.png",   intro:"", angles:[], kws:[] },
+      { name:"唐揚章魚小丸子",     price:70, en:"Fried Octopus Balls",      img:"assets/images/menu/limited/wuquan/fried-octopus-balls.png", intro:"", angles:[], kws:[] },
+    ],
+    songzhu: [
+      { name:"豆皮三味",            price:60, en:"Three Flavors Inari Sushi",      img:"assets/images/menu/limited/songzhu/three-flavors-inari-sushi.png",   intro:"", angles:[], kws:[] },
+      { name:"透抽天婦羅",          price:70, en:"Squid Tempura",                  img:"assets/images/menu/limited/songzhu/squid-tempura.png",               intro:"", angles:[], kws:[] },
+      { name:"稻燒鰹魚",            price:60, en:"Straw Seared Bonito",            img:"assets/images/menu/limited/songzhu/straw-seared-bonito.png",         intro:"", angles:[], kws:[] },
+      { name:"鮪魚三貫",            price:80, en:"Three Piece Tuna Nigiri",        img:"assets/images/menu/limited/songzhu/three-piece-tuna-nigiri.png",     intro:"", angles:[], kws:[] },
+      { name:"Oreo 草莓大福",       price:100,en:"Oreo Strawberry Daifuku",        img:"assets/images/menu/limited/songzhu/oreo-strawberry-daifuku.png",     intro:"", angles:[], kws:[] },
+      { name:"桂花紅豆白玉",        price:90, en:"Osmanthus Red Bean Shiratama",   img:"assets/images/menu/limited/songzhu/osmanthus-red-bean-shiratama.png", intro:"", angles:[], kws:[] },
+    ],
+    yongshun: [
+      { name:"鹹蛋黃洋蔥鮭魚",      price:50, en:"Salted Egg Yolk Onion Salmon",   img:"assets/images/menu/limited/yongshun/salted-egg-yolk-onion-salmon.png", intro:"", angles:[], kws:[] },
+      { name:"炙燒堅果豬",          price:50, en:"Seared Nutty Pork",              img:"assets/images/menu/limited/yongshun/seared-nutty-pork.png",           intro:"", angles:[], kws:[] },
+      { name:"阿根廷炸蝦",          price:60, en:"Argentine Fried Shrimp",         img:"assets/images/menu/limited/yongshun/argentine-fried-shrimp.png",      intro:"", angles:[], kws:[] },
+      { name:"明太子鮭魚",          price:60, en:"Mentaiko Salmon",                img:"assets/images/menu/limited/yongshun/mentaiko-salmon.png",             intro:"", angles:[], kws:[] },
+      { name:"巧克力檸檬塔",        price:80, en:"Chocolate Lemon Tart",           img:"assets/images/menu/limited/yongshun/chocolate-lemon-tart.png",        intro:"", angles:[], kws:[] },
+      { name:"墨魚茶碗蒸",          price:100,en:"Squid Ink Chawanmushi",          img:"assets/images/menu/limited/yongshun/squid-ink-chawanmushi.png",       intro:"", angles:[], kws:[] },
+    ],
+  },
+  script: [
+    { range:"0–3s",   lbl:"吸引注意", ttl:"開場句：製造好奇與點擊欲",  shots:"建議以室內空間感或飲料自助吧入鏡，製造視覺吸引力。", egs:["台中這間迴轉壽司竟然有飲料自助吧","親子聚餐可以收藏這間","這間壽司店不只壽司，還有動物造型送餐車","台中壽司控可以收藏這間"] },
+    { range:"4–15s",  lbl:"環境介紹", ttl:"介紹環境與分店特色",         shots:"門口招牌→門簾設計→座位區→包廂或吧台→飲料自助吧→動物造型送餐車", egs:[] },
+    { range:"16–25s", lbl:"餐點介紹", ttl:"展示餐點視覺與亮點",         shots:"餐點大合照→冰鮮鮭魚特寫→卡達菲系列→爪下肉軍艦→甜點或副餐→入口畫面", egs:[] },
+    { range:"26–30s", lbl:"收尾引導", ttl:"結尾 CTA：引導收藏或訂位",   shots:"可搭配品牌Logo或環境補拍。", egs:["台中聚餐可以收藏這間","親子用餐也很適合","想來建議先訂位","適合朋友、家庭或情侶聚餐"] },
+  ],
+  notices: [
+    { ic:"📷", ttl:"拍攝注意事項", items:["若拍攝到其他顧客，請避免明顯正臉入鏡","拍攝時請勿影響其他顧客用餐","若需拍攝廚房、工作區或員工作業畫面，請先詢問現場人員","請勿阻擋動線或影響送餐、收桌與帶位流程","若需拍攝送餐車或活動，請依現場狀況安排"] },
+    { ic:"✏️", ttl:"內容注意事項", items:["品牌名稱請使用「平祿壽司」","分店名稱、地址、電話、訂位資訊請以店方提供為主","若有活動、優惠或限定餐點，發布前請協助確認資訊正確","若有合作標記方式，請依店方提供帳號標記","不要自行編造價格、活動內容或未確認資訊","提到限定餐點，請使用「期間限定」「近期新品」「本次推薦」等說法"] },
+    { ic:"📮", ttl:"發文／合作注意事項", items:["發文前可協助確認品牌名稱、分店資訊與活動內容是否正確","影片或貼文需保留創作者原有風格，不要求完全照稿","若為付費或互惠合作，可依雙方確認條件進行標示","發文時間可依合作前約定執行","若需延後發布，請提前通知窗口"] },
+  ],
+  links: {
+    ig:      { lbl:"官方 Instagram", val:"@heirokusushitw",                                                          href:"https://www.instagram.com/heirokusushitw/" },
+    fb:      { lbl:"官方 Facebook",  val:"平祿壽司 粉絲專頁",                                                          href:"https://www.facebook.com/faysct/?locale=zh_TW" },
+    booking: { lbl:"Inline 訂位",    val:"線上訂位",                                                                   href:"https://inline.app/booking/-Lpl2tJ_OoERaB7PpmVz:inline-live-1?language=zh-tw" },
+  },
+  thankyou: {
+    ttl:"感謝您今天的到來",
+    txt:"非常感謝您選擇與平祿壽司合作。\n希望今天的用餐與拍攝體驗讓您感到舒適愉快，也期待看到您精彩的創作內容。\n若有任何問題，歡迎隨時透過粉專與我們聯繫。",
+  },
+};
+</script>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <div class="hero-inner">
+    <img class="hero-logo" src="assets/images/logo/heiroku-logo.png" alt="平祿壽司 Heiroku Sushi" onerror="this.remove();">
+    <div class="hero-badge">BLOGGER GUIDE · 部落客接待導覽</div>
+    <div class="hero-logo-jp">平祿壽司 × Heiroku Sushi</div>
+    <h1 class="hero-title">平祿壽司</h1>
+    <div class="hero-en">Blogger Guide 2026</div>
+    <p class="hero-desc" id="hero-desc"></p>
+    <button class="hero-btn" onclick="document.getElementById('story').scrollIntoView({behavior:'smooth'})">開始導覽 ↓</button>
+  </div>
+</section>
+
+<!-- BRAND STORY -->
+<div id="story" style="background:var(--cream)">
+  <div class="section reveal">
+    <div class="sec-label">BRAND STORY</div>
+    <h2 class="sec-title">品牌故事</h2>
+    <div class="tagline-box"><p id="tagline-text"></p><div class="src">— 平祿壽司 品牌定位</div></div>
+    <div class="name-meaning" id="name-meaning"></div>
+
+    <div class="sg-section">
+      <div class="sg-tabs" id="sg-tabs"></div>
+      <div id="sg-panels"></div>
+    </div>
+  </div>
+</div>
+
+<!-- STORES -->
+<div style="background:var(--cream)" id="stores">
+  <div class="section reveal">
+    <div class="sec-label">STORE GUIDE</div>
+    <h2 class="sec-title">選擇今日分店</h2>
+    <div class="tabs" id="store-tabs"></div>
+    <div id="store-cards"></div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<div style="background:var(--cream)" id="checklist">
+  <div class="section reveal">
+    <div class="sec-label">SHOOT CHECKLIST</div>
+    <h2 class="sec-title">必拍亮點清單</h2>
+    <div class="cl-progress">
+      <div class="ring-wrap">
+        <svg class="ring" width="80" height="80" viewBox="0 0 80 80">
+          <circle class="ring-bg" cx="40" cy="40" r="34"/>
+          <circle class="ring-fill" id="ring-fill" cx="40" cy="40" r="34" style="stroke-dasharray:213.6;stroke-dashoffset:213.6;"/>
+        </svg>
+        <span class="ring-pct" id="ring-pct">0%</span>
+      </div>
+      <div class="ring-label">已確認拍攝項目</div>
+    </div>
+    <div id="cl-wrap"></div>
+  </div>
+</div>
+
+<!-- SCRIPT -->
+<div style="background:var(--cream)" id="script">
+  <div class="section reveal">
+    <div class="sec-label">VIDEO SCRIPT</div>
+    <h2 class="sec-title">30 秒影片腳本建議</h2>
+    <div class="script-card" id="script-card"></div>
+  </div>
+</div>
+
+<!-- NOTICES -->
+<div class="bg-white" id="notices">
+  <div class="section reveal">
+    <div class="sec-label">COLLABORATION NOTES</div>
+    <h2 class="sec-title">合作注意事項</h2>
+    <div class="acc" id="acc"></div>
+  </div>
+</div>
+
+<!-- LINKS -->
+<div style="background:var(--cream)" id="links">
+  <div class="section reveal">
+    <div class="sec-label">QUICK LINKS</div>
+    <h2 class="sec-title">社群與訂位連結</h2>
+    <div class="links-grid" id="links-grid"></div>
+  </div>
+</div>
+
+<!-- THANK YOU -->
+<div class="ty" id="thanks">
+  <div class="ty-inner">
+    <div class="ty-em">🍣</div>
+    <h2 class="ty-ttl" id="ty-ttl"></h2>
+    <p class="ty-txt" id="ty-txt"></p>
+  </div>
+</div>
+
+<!-- 回到頂部 -->
+<button class="to-top" id="to-top" aria-label="回到頂部" title="回到頂部">↑</button>
+
+<!-- FLOAT NAV -->
+<nav class="fnav" id="fnav">
+  <a class="fn-btn" href="#top" data-target="top"><span class="fn-ic">🏠</span><span class="fn-lbl">首頁</span></a>
+  <a class="fn-btn" href="#stores" data-target="stores"><span class="fn-ic">🏪</span><span class="fn-lbl">分店</span></a>
+  <a class="fn-btn" href="#checklist" data-target="checklist"><span class="fn-ic">✅</span><span class="fn-lbl">清單</span></a>
+  <a class="fn-btn" href="#script" data-target="script"><span class="fn-ic">🎬</span><span class="fn-lbl">腳本</span></a>
+  <a class="fn-btn" href="#notices" data-target="notices"><span class="fn-ic">📋</span><span class="fn-lbl">須知</span></a>
+</nav>
+
+<script>
+(function(){
+document.getElementById('hero-desc').textContent = DATA.brand.origin;
+document.getElementById('tagline-text').textContent = DATA.brand.tagline;
+
+// Name meaning
+var nmEl = document.getElementById('name-meaning');
+DATA.nameMeaning.forEach(function(n){ nmEl.innerHTML += '<div class="nm-card"><div class="nm-char">'+n.char+'</div><div class="nm-title">'+n.title+'</div><div class="nm-desc">'+n.desc+'</div></div>'; });
+
+// Store Gallery（分店環境導覽：歷史介紹 + 三家分店）
+var sgTabsEl=document.getElementById('sg-tabs'), sgPanelsEl=document.getElementById('sg-panels');
+// 歷史介紹 tab + 面板（內容＝品牌時間軸）
+sgTabsEl.innerHTML='<button class="sg-tab active" data-sg="history">歷史介紹</button>';
+var historyHtml='<div class="timeline">'+DATA.timeline.map(function(t){ return '<div class="tl-item"><div class="tl-year">'+t.year+'</div><div class="tl-text">'+t.text+'</div></div>'; }).join('')+'</div>';
+sgPanelsEl.innerHTML='<div class="sg-panel active" data-sgp="history">'+historyHtml+'</div>';
+// 三家分店 tabs + 面板（圖卡網格）
+DATA.storeGallery.forEach(function(store){
+  sgTabsEl.innerHTML+='<button class="sg-tab" data-sg="'+store.id+'">'+store.name+'</button>';
+  var cards=store.items.map(function(it){
+    var safeAlt=it.title.replace(/"/g,'&quot;');
+    return '<div class="sg-card">'
+      +  '<div class="sg-imgwrap">'
+      +    '<img src="'+it.src+'" alt="'+safeAlt+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=sg-ph><div class=sg-ph-ic>📷</div><div class=sg-ph-lbl>圖片待補</div></div>\'">'
+      +  '</div>'
+      +  '<div class="sg-body"><div class="sg-name">'+it.title+'</div></div>'
+      +'</div>';
+  }).join('');
+  sgPanelsEl.innerHTML+='<div class="sg-panel" data-sgp="'+store.id+'"><div class="sg-grid">'+cards+'</div></div>';
+});
+// Tab 切換事件
+sgTabsEl.addEventListener('click', function(e){
+  var btn=e.target.closest('.sg-tab'); if(!btn) return;
+  var target=btn.getAttribute('data-sg');
+  sgTabsEl.querySelectorAll('.sg-tab').forEach(function(b){ b.classList.toggle('active', b===btn); });
+  sgPanelsEl.querySelectorAll('.sg-panel').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-sgp')===target); });
+});
+
+// Stores（內含推薦拍攝餐點子區：新品上市 / 限定餐點 切換）
+function _miCard(m, isLim){
+  var altSafe=(m.name||'').replace(/"/g,'&quot;');
+  var srcSafe=(m.img||'').replace(/"/g,'&quot;');
+  var introHtml = m.intro ? '<div class="mi-intro">'+m.intro+'</div>' : '<div class="mi-intro mi-empty">（餐點簡短介紹待補）</div>';
+  var anglesHtml = (m.angles && m.angles.length)
+    ? '<ul class="mi-angles">'+m.angles.map(function(a){ return '<li>'+a+'</li>'; }).join('')+'</ul>'
+    : '<div class="mi-empty">（建議拍攝角度待補）</div>';
+  var kwsHtml = (m.kws && m.kws.length)
+    ? '<div class="mi-kws">'+m.kws.map(function(k){ return '<span class="mi-kw'+(isLim?' lim':'')+'">'+k+'</span>'; }).join('')+'</div>'
+    : '<div class="mi-empty">（文案關鍵字待補）</div>';
+  var ttlCls = isLim ? ' lim' : '';
+  return '<div class="mi-card">'
+    + '<div class="mi-imgwrap"><img src="'+srcSafe+'" alt="'+altSafe+'" loading="lazy" onerror="_miFallback(this)"></div>'
+    + '<div class="mi-body">'
+    +   '<div class="mi-head"><div class="mi-name">'+m.name+'</div><div class="mi-price'+(isLim?' lim':'')+'">$'+m.price+'</div></div>'
+    +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">餐點簡短介紹</div>'+introHtml+'</div>'
+    +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">建議拍攝角度</div>'+anglesHtml+'</div>'
+    +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">文案關鍵字</div>'+kwsHtml+'</div>'
+    + '</div>'
+    + '</div>';
+}
+function _renderMenuPanels(storeId){
+  var newCards = DATA.menuNew.map(function(m){ return _miCard(m,false); }).join('');
+  var lim = (DATA.menuLimited[storeId]||[]);
+  var limCards = lim.length
+    ? lim.map(function(m){ return _miCard(m,true); }).join('')
+    : '<div class="m-empty"><div class="m-empty-ic">⭐</div>此分店限定餐點日後補充</div>';
+  return '<div class="menu-type-tabs">'
+    +   '<button class="mtype-btn act-new" data-mt-store="'+storeId+'" data-mt-type="new"><span class="em">🆕</span>新品上市</button>'
+    +   '<button class="mtype-btn"         data-mt-store="'+storeId+'" data-mt-type="limited"><span class="em">⭐</span>限定餐點</button>'
+    + '</div>'
+    + '<div class="mpanel active" data-mp-store="'+storeId+'" data-mp-type="new"><div class="menu-grid">'+newCards+'</div></div>'
+    + '<div class="mpanel"        data-mp-store="'+storeId+'" data-mp-type="limited"><div class="menu-grid">'+limCards+'</div></div>';
+}
+
+var stEl=document.getElementById('store-tabs'), scEl=document.getElementById('store-cards');
+DATA.stores.forEach(function(s,i){
+  stEl.innerHTML+='<button class="tab-btn'+(i===0?' active':'')+'" onclick="switchStore('+i+')">'+s.name+'</button>';
+  scEl.innerHTML+='<div class="store-card'+(i===0?' active':'')+'" id="sc-'+i+'">'
+    +'<div class="sc-head"><div class="sc-tag">'+s.tag+'</div><div class="sc-name">平祿壽司 '+s.name+'</div><div class="sc-desc">'+s.desc+'</div></div>'
+    +'<div class="sc-body">'
+    +'<div class="sc-sub">📍 分店資訊</div><div class="info-row"><span class="ic">📌</span>'+s.address+'</div><div class="info-row"><span class="ic">📞</span>'+s.phone+'</div>'
+    +'<div class="sc-sub">🏮 空間風格</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:8px">'+s.style+'</div>'
+    +'<div class="sc-sub">🥤 飲料自助吧</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:12px">'+s.drinks+'</div>'
+    +'<div class="sc-sub">✨ 分店特色</div><div class="chips">'+s.features.map(function(f){ return '<span class="chip chip-r">'+f+'</span>'; }).join('')+'</div>'
+    +'<div class="sc-sub">🍣 推薦拍攝餐點</div>'+_renderMenuPanels(s.id)
+    +'</div></div>';
+});
+
+// 推薦拍攝餐點：新品/限定切換（事件代理，依分店切換對應 panel）
+scEl.addEventListener('click', function(e){
+  var btn=e.target.closest('.mtype-btn'); if(!btn) return;
+  var storeId=btn.getAttribute('data-mt-store'), type=btn.getAttribute('data-mt-type');
+  scEl.querySelectorAll('.mtype-btn[data-mt-store="'+storeId+'"]').forEach(function(b){
+    var t=b.getAttribute('data-mt-type');
+    b.className='mtype-btn'+(t===type ? (type==='new'?' act-new':' act-lim') : '');
+  });
+  scEl.querySelectorAll('.mpanel[data-mp-store="'+storeId+'"]').forEach(function(p){
+    p.classList.toggle('active', p.getAttribute('data-mp-type')===type);
+  });
+});
+
+// Checklist
+var clEl=document.getElementById('cl-wrap');
+DATA.checklist.forEach(function(cat){ clEl.innerHTML+='<div class="cl-cat"><div class="cl-cat-hd">'+cat.cat+'</div>'+cat.items.map(function(it){ return '<div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box">✓</div><div class="cl-text">'+it.t+'</div>'+(it.n?'<div class="cl-note">'+it.n+'</div>':'')+'</div>'; }).join('')+'</div>'; });
+
+// Script
+var scrdEl=document.getElementById('script-card');
+DATA.script.forEach(function(s){ scrdEl.innerHTML+='<div class="s-block"><div class="s-time"><div class="s-range">'+s.range+'</div><div class="s-lbl">'+s.lbl+'</div></div><div class="s-content"><div class="s-ttl">'+s.ttl+'</div><div class="s-shots">'+s.shots+'</div>'+(s.egs.length?'<div class="s-eg"><div class="s-eg-lbl">開場句範例</div>'+s.egs.map(function(e){ return '・'+e; }).join('<br>')+'</div>':'')+'</div></div>'; });
+
+// Notices
+var accEl=document.getElementById('acc');
+DATA.notices.forEach(function(n,i){ accEl.innerHTML+='<div class="acc-item" id="acc-'+i+'"><button class="acc-toggle" onclick="toggleAcc('+i+')"><div class="acc-left"><span class="acc-ic">'+n.ic+'</span><span class="acc-ttl">'+n.ttl+'</span></div><span class="acc-arr">▼</span></button><div class="acc-body" id="acc-body-'+i+'"><div class="acc-inner"><ul class="acc-list">'+n.items.map(function(it){ return '<li>'+it+'</li>'; }).join('')+'</ul></div></div></div>'; });
+
+// Links
+var lgEl=document.getElementById('links-grid'), lgIc={ig:'📷',fb:'📘',booking:'📅'};
+Object.keys(DATA.links).forEach(function(k){
+  var v=DATA.links[k];
+  var hasHref = v.href ? true : false;
+  var inner = '<div class="lc-ic">'+lgIc[k]+'</div><div class="lc-lbl">'+v.lbl+'</div>'+(v.val?'<div class="lc-val">'+v.val+'</div>':'<div class="lc-ph">待補充</div>');
+  if (hasHref) {
+    lgEl.innerHTML += '<a class="link-card" href="'+v.href+'" target="_blank" rel="noopener noreferrer">'+inner+'</a>';
+  } else {
+    lgEl.innerHTML += '<div class="link-card">'+inner+'</div>';
+  }
+});
+
+// Thank You
+document.getElementById('ty-ttl').textContent=DATA.thankyou.ttl;
+document.getElementById('ty-txt').textContent=DATA.thankyou.txt;
+
+// Scroll Reveal
+var obs=new IntersectionObserver(function(entries){ entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); }); },{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(function(el){ obs.observe(el); });
+
+/* ====================================================
+   閱讀進度條 + 浮動導覽強化 + 回到頂部
+==================================================== */
+var navItems = Array.prototype.slice.call(document.querySelectorAll('.fn-btn'));
+var sectionMap = navItems.map(function(btn){
+  var id = btn.getAttribute('data-target');
+  return { btn: btn, id: id, el: document.getElementById(id) };
+}).filter(function(s){ return s.el; });
+
+var progressBar = document.getElementById('read-progress-bar');
+var progressPct = document.getElementById('read-progress-pct');
+var fnav = document.getElementById('fnav');
+var toTopBtn = document.getElementById('to-top');
+var lastScrollY = window.scrollY || 0;
+var ticking = false;
+var hideTimer = null;
+
+function setActiveNav(id){
+  sectionMap.forEach(function(s){
+    s.btn.classList.toggle('active', s.id === id);
+  });
+}
+
+function updateOnScroll(){
+  var doc = document.documentElement;
+  var scrollTop = window.scrollY || doc.scrollTop || 0;
+  var scrollHeight = (doc.scrollHeight || document.body.scrollHeight) - window.innerHeight;
+  var pct = scrollHeight > 0 ? Math.min(100, Math.max(0, (scrollTop / scrollHeight) * 100)) : 0;
+
+  // 更新進度條
+  progressBar.style.width = pct.toFixed(2) + '%';
+  progressPct.textContent = Math.round(pct) + '%';
+
+  // 進度百分比膠囊：捲動時顯示，停止 1.2 秒後淡出
+  progressPct.classList.add('show');
+  clearTimeout(hideTimer);
+  hideTimer = setTimeout(function(){ progressPct.classList.remove('show'); }, 1200);
+
+  // 偵測目前區塊（scroll-spy）
+  var viewportPoint = window.innerHeight * 0.35;
+  var currentId = sectionMap[0] ? sectionMap[0].id : null;
+  for (var i = 0; i < sectionMap.length; i++) {
+    var rect = sectionMap[i].el.getBoundingClientRect();
+    if (rect.top <= viewportPoint) currentId = sectionMap[i].id;
+  }
+  // 到底部時，鎖定最後一個分區
+  if (scrollHeight > 0 && scrollTop + window.innerHeight >= (doc.scrollHeight || document.body.scrollHeight) - 4) {
+    currentId = sectionMap[sectionMap.length - 1].id;
+  }
+  setActiveNav(currentId);
+
+  // 向下捲動時隱藏導覽、向上捲動時顯示
+  var delta = scrollTop - lastScrollY;
+  if (scrollTop > 220 && delta > 6) {
+    fnav.classList.add('hide');
+  } else if (delta < -4 || scrollTop < 120) {
+    fnav.classList.remove('hide');
+  }
+  lastScrollY = scrollTop;
+
+  // 回到頂部按鈕
+  if (scrollTop > 400) toTopBtn.classList.add('show');
+  else toTopBtn.classList.remove('show');
+
+  ticking = false;
+}
+
+window.addEventListener('scroll', function(){
+  if (!ticking) {
+    window.requestAnimationFrame(updateOnScroll);
+    ticking = true;
+  }
+}, { passive: true });
+
+window.addEventListener('resize', function(){
+  if (!ticking) {
+    window.requestAnimationFrame(updateOnScroll);
+    ticking = true;
+  }
+});
+
+// 點擊導覽按鈕時，先顯示導覽 + 立即套用 active
+navItems.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    fnav.classList.remove('hide');
+    setActiveNav(btn.getAttribute('data-target'));
+  });
+});
+
+// 回到頂部
+toTopBtn.addEventListener('click', function(){
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+
+// 初始觸發一次
+updateOnScroll();
+})();
+
+function switchStore(idx){ document.querySelectorAll('#store-tabs .tab-btn').forEach(function(t,i){ t.classList.toggle('active',i===idx); }); document.querySelectorAll('.store-card').forEach(function(c,i){ c.classList.toggle('active',i===idx); }); }
+function toggleCheck(el){ el.classList.toggle('checked'); var c=document.querySelectorAll('.cl-item.checked').length,t=document.querySelectorAll('.cl-item').length,p=t?Math.round(c/t*100):0; document.getElementById('ring-pct').textContent=p+'%'; document.getElementById('ring-fill').style.strokeDashoffset=(2*Math.PI*34)-(p/100*(2*Math.PI*34)); }
+function toggleAcc(i){ var item=document.getElementById('acc-'+i),body=document.getElementById('acc-body-'+i),o=item.classList.contains('open'); document.querySelectorAll('.acc-item').forEach(function(el){ el.classList.remove('open'); el.querySelector('.acc-body').style.maxHeight='0'; }); if(!o){ item.classList.add('open'); body.style.maxHeight=body.scrollHeight+'px'; } }
+/* 推薦拍攝餐點圖片 fallback：顯示「圖片待補」與該張圖實際路徑，方便排查 */
+function _miFallback(img){
+  var src = (img && img.getAttribute('src')) || '';
+  var safe = src.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  var wrap = img && img.parentElement; if (!wrap) return;
+  wrap.innerHTML = '<div class="mi-ph">'
+    + '<div class="mi-ph-ic">📷</div>'
+    + '<div class="mi-ph-lbl">圖片待補</div>'
+    + '<div class="mi-ph-path">'+safe+'</div>'
+    + '</div>';
+}
+</script>
+</body>
+</html>
