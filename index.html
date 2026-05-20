@@ -383,6 +383,80 @@ body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color:
 .sg-body { padding:14px 16px 18px; }
 .sg-name { font-family:'Noto Serif TC',serif; font-size:15px; font-weight:700; color:var(--ink); line-height:1.4; }
 
+/* ============== 其他特色 Feature Highlights ============== */
+.feat-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
+.feat-card { background: var(--white); border: 1px solid var(--cream-dark); border-radius: var(--radius); padding: 22px 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; transition: box-shadow .25s ease, transform .25s ease; }
+.feat-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-2px); }
+.feat-ic { font-size: 38px; line-height: 1; }
+.feat-title { font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 700; color: var(--ink); }
+.feat-desc { font-size: 13px; color: var(--ink-mid); line-height: 1.7; }
+.feat-tag { display: inline-block; font-size: 10px; letter-spacing: .15em; color: var(--ink-soft); background: var(--cream); border: 1px solid var(--cream-dark); padding: 4px 12px; border-radius: 100px; font-weight: 600; margin-top: 2px; }
+
+/* 鮭魚主打卡（獨占一整列） */
+.feat-hero { background: linear-gradient(135deg, var(--crimson) 0%, #6E0000 100%); color: var(--cream); border: 1px solid rgba(191,164,111,.4); padding: 28px 22px; position: relative; overflow: hidden; }
+.feat-hero::before { content:''; position:absolute; inset:0; background-image: repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(255,255,255,.04) 39px,rgba(255,255,255,.04) 40px),repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(255,255,255,.04) 39px,rgba(255,255,255,.04) 40px); pointer-events:none; }
+.feat-hero::after { content:''; position:absolute; bottom:-80px; right:-60px; width:200px; height:200px; border-radius:50%; background: radial-gradient(circle, rgba(191,164,111,.22) 0%, transparent 70%); pointer-events:none; }
+.feat-hero .feat-ic { font-size: 52px; filter: drop-shadow(0 2px 8px rgba(0,0,0,.3)); position:relative; z-index:1; }
+.feat-hero .feat-title { font-size: 22px; color: var(--cream); position:relative; z-index:1; }
+.feat-hero .feat-desc { font-size: 14px; color: rgba(247,241,232,.85); position:relative; z-index:1; }
+.feat-hero-tags { display:flex; flex-wrap:wrap; gap:8px; justify-content:center; margin-top:6px; position:relative; z-index:1; }
+.feat-hero-tag { display:inline-block; font-size: 10px; letter-spacing: .2em; color: var(--ink); background: var(--gold); padding: 5px 14px; border-radius: 100px; font-weight: 700; box-shadow: 0 2px 8px rgba(0,0,0,.18); }
+.feat-hero-tag.outline { background: transparent; color: var(--gold); border: 1px solid var(--gold); box-shadow:none; }
+
+/* 三張一般卡片：手機 1 欄、桌機 3 欄 */
+.feat-grid-sub { display: grid; grid-template-columns: 1fr; gap: 14px; }
+@media (min-width: 720px) {
+  .feat-grid-sub { grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+}
+
+/* ============== Logo 設計理念 ============== */
+.logo-meaning { background: var(--white); border: 1px solid var(--cream-dark); border-radius: var(--radius); padding: 26px 22px 24px; box-shadow: var(--shadow); margin-bottom: 32px; }
+.lm-logo-wrap { display: flex; align-items: center; justify-content: center; padding: 6px 8px 14px; }
+.lm-logo { max-width: 220px; width: 60%; height: auto; object-fit: contain; display: block; image-rendering: -webkit-optimize-contrast; }
+.lm-logo-fallback { font-family: 'Noto Serif TC', serif; font-size: 18px; font-weight: 700; color: var(--crimson); letter-spacing: .08em; padding: 18px 24px; border: 1.5px dashed var(--cream-dark); border-radius: var(--radius-sm); background: var(--cream); }
+.lm-divider { height: 1px; background: linear-gradient(to right, transparent, var(--cream-dark), transparent); margin: 4px 0 16px; }
+.lm-desc { font-size: 13.5px; color: var(--ink-mid); line-height: 1.85; text-align: center; margin-bottom: 18px; padding: 0 4px; }
+.lm-colors { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+.lm-col { display: flex; flex-direction: column; align-items: center; gap: 8px; padding: 6px 4px; }
+.lm-dot { width: 46px; height: 46px; border-radius: 50%; box-shadow: 0 4px 12px rgba(26,18,8,.18), inset 0 0 0 2px rgba(255,255,255,.35); flex-shrink: 0; }
+.lm-dot.red    { background: #E70012; }
+.lm-dot.purple { background: #541B86; }
+.lm-dot.green  { background: #00A074; }
+.lm-col-name { font-size: 11px; letter-spacing: .15em; font-weight: 700; color: var(--ink-soft); }
+.lm-col-name.red    { color: #C2000F; }
+.lm-col-name.purple { color: #541B86; }
+.lm-col-name.green  { color: #00805C; }
+.lm-col-label { font-family: 'Noto Serif TC', serif; font-size: 14px; font-weight: 700; color: var(--ink); }
+@media (max-width: 380px) {
+  .lm-dot { width: 40px; height: 40px; }
+  .lm-col-label { font-size: 13px; }
+}
+
+/* ============== 圖片放大 Lightbox ============== */
+.sg-imgwrap.zoomable { cursor: zoom-in; }
+.sg-imgwrap.zoomable img { transition: transform .35s ease; }
+.sg-imgwrap.zoomable:hover img { transform: scale(1.04); }
+
+.lightbox { position: fixed; inset: 0; background: rgba(10,5,2,.88); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); z-index: 300; display: none; align-items: center; justify-content: center; padding: 32px 16px 80px; opacity: 0; transition: opacity .25s ease; }
+.lightbox.show { display: flex; opacity: 1; }
+.lightbox-inner { position: relative; max-width: 1100px; width: 100%; max-height: 100%; display: flex; flex-direction: column; align-items: center; gap: 14px; animation: fadeUp .35s ease both; }
+.lightbox-img { max-width: 100%; max-height: calc(100svh - 180px); width: auto; height: auto; object-fit: contain; border-radius: 12px; box-shadow: 0 12px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(191,164,111,.18); background: var(--ink); display:block; }
+.lightbox-cap { color: var(--cream); font-family: 'Noto Serif TC', serif; font-size: 15px; font-weight: 700; letter-spacing: .05em; text-align: center; padding: 4px 14px; background: rgba(26,18,8,.55); border: 1px solid rgba(191,164,111,.25); border-radius: 100px; max-width: 100%; }
+.lightbox-close { position: absolute; top: -42px; right: 0; width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,.1); border: 1px solid rgba(191,164,111,.4); color: var(--cream); font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background .2s ease, transform .15s ease; }
+.lightbox-close:hover { background: var(--crimson); transform: scale(1.06); }
+.lightbox-close:active { transform: scale(.94); }
+.lightbox-fallback { width: min(86vw, 480px); aspect-ratio: 4 / 3; border-radius: 12px; background: linear-gradient(135deg, var(--cream-dark) 0%, #d8cdb4 100%); color: var(--ink-soft); display:flex; flex-direction:column; align-items:center; justify-content:center; gap:10px; }
+.lightbox-fallback .ic { font-size: 44px; opacity: .5; }
+.lightbox-fallback .lbl { font-size: 13px; letter-spacing: .15em; font-weight: 600; }
+
+@media (max-width: 540px) {
+  .lightbox { padding: 24px 12px 60px; }
+  .lightbox-img { max-height: calc(100svh - 160px); border-radius: 10px; }
+  .lightbox-close { top: -38px; width: 32px; height: 32px; font-size: 16px; }
+  .lightbox-cap { font-size: 13px; }
+}
+body.lb-open { overflow: hidden; }
+
 @keyframes fadeUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 .reveal { opacity: 0; transform: translateY(16px); transition: opacity .5s ease, transform .5s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
@@ -454,14 +528,14 @@ const DATA = {
   // 推薦拍攝餐點：新品上市為三間分店共用；限定餐點依分店分別顯示
   // 「intro / angles / kws」欄位皆保留（待補）狀態，由內部後續補上
   menuNew: [
-    { name:"卡達菲鰻魚堡",       price:60, en:"Kataifi Eel Burger",                     img:"assets/images/menu/new/kataifi-eel-burger.png",                     intro:"", angles:[], kws:[] },
-    { name:"卡達菲扇貝握壽司",   price:40, en:"Kataifi Scallop Nigiri Sushi",           img:"assets/images/menu/new/kataifi-scallop-nigiri-sushi.png",           intro:"", angles:[], kws:[] },
-    { name:"卡達菲海陸握壽司",   price:60, en:"Kataifi Seafood and Land Nigiri Sushi",  img:"assets/images/menu/new/kataifi-seafood-and-land-nigiri-sushi.png",  intro:"", angles:[], kws:[] },
-    { name:"深海紅蟹爪下",       price:70, en:"Deep Sea Red Crab Claw",                 img:"assets/images/menu/new/deep-sea-red-crab-claw.png",                 intro:"", angles:[], kws:[] },
+    { name:"卡達菲鰻魚堡",       price:60, en:"Kataifi Eel Burger",                     img:"assets/images/menu/new/kataifi-eel-burger.png",                     intro:"酥脆卡達菲搭配鰻魚與漢堡，鹹甜濃郁、口感層次豐富。",      angles:["近拍卡達菲酥脆外層","鰻魚醬汁光澤","側面層次"],         kws:["卡達菲","鰻魚","酥脆口感"] },
+    { name:"卡達菲扇貝握壽司",   price:40, en:"Kataifi Scallop Nigiri Sushi",           img:"assets/images/menu/new/kataifi-scallop-nigiri-sushi.png",           intro:"扇貝鮮甜搭配卡達菲酥脆口感，清爽中帶有驚喜層次。",        angles:["近拍扇貝表面","卡達菲細節","呈現貝殼擺盤"],             kws:["卡達菲","扇貝","鮮甜"] },
+    { name:"卡達菲海陸握壽司",   price:60, en:"Kataifi Seafood and Land Nigiri Sushi",  img:"assets/images/menu/new/kataifi-seafood-and-land-nigiri-sushi.png",  intro:"唐揚雞與炸蝦結合卡達菲，海陸雙重口感一次滿足。",          angles:["拍攝炸蝦與唐揚雞堆疊感","卡達菲酥脆細節"],                kws:["卡達菲","海陸","炸蝦"] },
+    { name:"深海紅蟹爪下",       price:70, en:"Deep Sea Red Crab Claw",                 img:"assets/images/menu/new/deep-sea-red-crab-claw.png",                 intro:"嚴選深海紅蟹爪下肉，搭配飛魚卵，鮮味明顯、口感細緻。",    angles:["近拍蟹肉份量","飛魚卵晶亮感","軍艦側面"],               kws:["爪下肉","深海紅蟹","鮮味"] },
   ],
   menuLimited: {
     wuquan: [
-      { name:"滿盛玉子燒",         price:40, en:"Full Tamagoyaki",          img:"assets/images/menu/limited/wuquan/full-tamagoyaki.png",   intro:"", angles:[], kws:[] },
+      { name:"滿盛玉子燒",         price:40, en:"Full Tamagoyaki",          img:"assets/images/menu/limited/wuquan/full-tamagoyaki.png",   intro:"厚實玉子燒搭配蘆筍與蟹肉，口感柔嫩，份量感十足。", angles:["拍攝玉子燒厚度","蘆筍與蟹肉配料","斷面細節"], kws:["玉子燒","蟹肉","份量感"] },
       { name:"唐揚章魚小丸子",     price:70, en:"Fried Octopus Balls",      img:"assets/images/menu/limited/wuquan/fried-octopus-balls.png", intro:"", angles:[], kws:[] },
     ],
     songzhu: [
@@ -525,9 +599,81 @@ const DATA = {
     <div class="tagline-box"><p id="tagline-text"></p><div class="src">— 平祿壽司 品牌定位</div></div>
     <div class="name-meaning" id="name-meaning"></div>
 
+    <!-- Logo 設計理念 -->
+    <div class="sec-label" style="margin-top:8px">LOGO DESIGN</div>
+    <h3 class="sec-title" style="font-size:20px;margin-bottom:18px">Logo 設計理念</h3>
+    <div class="logo-meaning">
+      <div class="lm-logo-wrap">
+        <img class="lm-logo" src="assets/images/logo/heiroku-logo2.png" alt="平祿壽司 Logo"
+             onerror="this.outerHTML='&lt;div class=&quot;lm-logo-fallback&quot;&gt;平祿壽司 Logo&lt;/div&gt;'">
+      </div>
+      <div class="lm-divider"></div>
+      <p class="lm-desc">這三個顏色代表平祿壽司最重視的三個元素：顧客、合作夥伴與內部團隊。</p>
+      <div class="lm-colors">
+        <div class="lm-col">
+          <div class="lm-dot red" aria-hidden="true"></div>
+          <div class="lm-col-name red">RED</div>
+          <div class="lm-col-label">客人</div>
+        </div>
+        <div class="lm-col">
+          <div class="lm-dot purple" aria-hidden="true"></div>
+          <div class="lm-col-name purple">PURPLE</div>
+          <div class="lm-col-label">廠商</div>
+        </div>
+        <div class="lm-col">
+          <div class="lm-dot green" aria-hidden="true"></div>
+          <div class="lm-col-name green">GREEN</div>
+          <div class="lm-col-label">同仁</div>
+        </div>
+      </div>
+    </div>
+
     <div class="sg-section">
       <div class="sg-tabs" id="sg-tabs"></div>
       <div id="sg-panels"></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEATURE HIGHLIGHTS -->
+<div style="background:var(--cream)" id="features">
+  <div class="section reveal">
+    <div class="sec-label">FEATURE HIGHLIGHTS</div>
+    <h2 class="sec-title">其他特色</h2>
+
+    <!-- 主打：冰鮮鮭魚（獨占一整列） -->
+    <div class="feat-grid" style="margin-bottom:14px">
+      <div class="feat-card feat-hero">
+        <div class="feat-ic">🐟</div>
+        <div class="feat-title">冰鮮鮭魚</div>
+        <div class="feat-desc">主打當日進貨冰鮮鮭魚</div>
+        <div class="feat-hero-tags">
+          <span class="feat-hero-tag">必拍重點</span>
+          <span class="feat-hero-tag outline">主打特色</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- 其他三項特色 -->
+    <div class="feat-grid-sub">
+      <div class="feat-card">
+        <div class="feat-ic">🤖🎂</div>
+        <div class="feat-title">帶位機器人慶生</div>
+        <div class="feat-desc">慶生互動亮點</div>
+        <div class="feat-tag">互動體驗</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ic">🎈</div>
+        <div class="feat-title">小丑折氣球表演</div>
+        <div class="feat-desc">親子互動亮點</div>
+        <div class="feat-tag">親子體驗</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ic">📱</div>
+        <div class="feat-title">QR Code 點餐</div>
+        <div class="feat-desc">手機掃碼點餐</div>
+        <div class="feat-tag">便利服務</div>
+      </div>
     </div>
   </div>
 </div>
@@ -597,6 +743,15 @@ const DATA = {
   </div>
 </div>
 
+<!-- 圖片放大 Lightbox -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="分店照片放大檢視" aria-hidden="true">
+  <div class="lightbox-inner">
+    <button class="lightbox-close" id="lightbox-close" aria-label="關閉放大檢視" title="關閉">✕</button>
+    <div id="lightbox-media"></div>
+    <div class="lightbox-cap" id="lightbox-cap"></div>
+  </div>
+</div>
+
 <!-- 回到頂部 -->
 <button class="to-top" id="to-top" aria-label="回到頂部" title="回到頂部">↑</button>
 
@@ -629,9 +784,10 @@ DATA.storeGallery.forEach(function(store){
   sgTabsEl.innerHTML+='<button class="sg-tab" data-sg="'+store.id+'">'+store.name+'</button>';
   var cards=store.items.map(function(it){
     var safeAlt=it.title.replace(/"/g,'&quot;');
+    var safeSrc=(it.src||'').replace(/"/g,'&quot;');
     return '<div class="sg-card">'
-      +  '<div class="sg-imgwrap">'
-      +    '<img src="'+it.src+'" alt="'+safeAlt+'" loading="lazy" onerror="this.parentElement.innerHTML=\'<div class=sg-ph><div class=sg-ph-ic>📷</div><div class=sg-ph-lbl>圖片待補</div></div>\'">'
+      +  '<div class="sg-imgwrap zoomable" data-zoom-src="'+safeSrc+'" data-zoom-title="'+safeAlt+'" role="button" tabindex="0" aria-label="放大檢視：'+safeAlt+'">'
+      +    '<img src="'+it.src+'" alt="'+safeAlt+'" loading="lazy" onerror="_sgFallback(this)">'
       +  '</div>'
       +  '<div class="sg-body"><div class="sg-name">'+it.title+'</div></div>'
       +'</div>';
@@ -854,6 +1010,87 @@ function _miFallback(img){
     + '<div class="mi-ph-path">'+safe+'</div>'
     + '</div>';
 }
+
+/* 分店環境照片 fallback：圖片載入失敗時顯示「圖片待補」，並移除 zoomable 互動 */
+function _sgFallback(img){
+  var wrap = img && img.parentElement; if (!wrap) return;
+  wrap.classList.remove('zoomable');
+  wrap.removeAttribute('data-zoom-src');
+  wrap.removeAttribute('data-zoom-title');
+  wrap.removeAttribute('role');
+  wrap.removeAttribute('tabindex');
+  wrap.removeAttribute('aria-label');
+  wrap.innerHTML = '<div class="sg-ph"><div class="sg-ph-ic">📷</div><div class="sg-ph-lbl">圖片待補</div></div>';
+}
+
+/* ====================================================
+   圖片放大 Lightbox：點圖開啟、點背景／✕／ESC 關閉
+==================================================== */
+(function(){
+  var lb       = document.getElementById('lightbox');
+  var lbMedia  = document.getElementById('lightbox-media');
+  var lbCap    = document.getElementById('lightbox-cap');
+  var lbClose  = document.getElementById('lightbox-close');
+  if (!lb || !lbMedia || !lbCap || !lbClose) return;
+
+  function openLightbox(src, title){
+    lbCap.textContent = title || '';
+    lbMedia.innerHTML = '';
+    var img = new Image();
+    img.className = 'lightbox-img';
+    img.alt = title || '';
+    img.onerror = function(){
+      lbMedia.innerHTML = '<div class="lightbox-fallback"><div class="ic">📷</div><div class="lbl">圖片待補</div></div>';
+    };
+    img.src = src;
+    lbMedia.appendChild(img);
+    lb.classList.add('show');
+    lb.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('lb-open');
+    // 把焦點移到關閉按鈕，方便鍵盤操作
+    setTimeout(function(){ try { lbClose.focus(); } catch(_){} }, 50);
+  }
+  function closeLightbox(){
+    lb.classList.remove('show');
+    lb.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('lb-open');
+    // 延後清空，等淡出動畫結束
+    setTimeout(function(){ lbMedia.innerHTML=''; lbCap.textContent=''; }, 280);
+  }
+
+  // 事件代理：點任一張 .sg-imgwrap.zoomable 開啟
+  document.addEventListener('click', function(e){
+    var trigger = e.target.closest ? e.target.closest('.sg-imgwrap.zoomable') : null;
+    if (trigger) {
+      var src = trigger.getAttribute('data-zoom-src') || '';
+      var title = trigger.getAttribute('data-zoom-title') || '';
+      if (src) openLightbox(src, title);
+      return;
+    }
+    // 鍵盤可達性：Enter / Space 由 keydown 處理；此處只處理點擊
+  });
+
+  // 鍵盤：Enter / Space 也能開啟
+  document.addEventListener('keydown', function(e){
+    if ((e.key === 'Enter' || e.key === ' ') && document.activeElement && document.activeElement.classList && document.activeElement.classList.contains('zoomable')) {
+      e.preventDefault();
+      var trigger = document.activeElement;
+      var src = trigger.getAttribute('data-zoom-src') || '';
+      var title = trigger.getAttribute('data-zoom-title') || '';
+      if (src) openLightbox(src, title);
+    }
+    if (e.key === 'Escape' && lb.classList.contains('show')) {
+      closeLightbox();
+    }
+  });
+
+  // 關閉按鈕
+  lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
+  // 點背景關閉（點到內容區不關閉）
+  lb.addEventListener('click', function(e){
+    if (e.target === lb) closeLightbox();
+  });
+})();
 </script>
 </body>
 </html>
