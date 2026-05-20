@@ -46,11 +46,6 @@ body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color:
 .sec-title { font-family: 'Noto Serif TC',serif; font-size: clamp(22px,6vw,30px); font-weight: 700; color: var(--ink); margin-bottom: 32px; line-height: 1.35; }
 .bg-white { background: var(--white); }
 
-.tagline-box { background: var(--crimson); color: var(--cream); border-radius: var(--radius); padding: 28px 24px; margin-bottom: 32px; position: relative; overflow: hidden; }
-.tagline-box::before { content: '「'; position: absolute; top: -10px; left: 12px; font-size: 80px; color: rgba(191,164,111,.15); font-family: 'Noto Serif TC',serif; line-height: 1; }
-.tagline-box p { font-family: 'Noto Serif TC',serif; font-size: 15px; line-height: 1.9; position: relative; z-index: 1; }
-.tagline-box .src { font-size: 11px; color: var(--gold); margin-top: 12px; letter-spacing: .1em; }
-
 .name-meaning { display: flex; gap: 12px; margin-bottom: 32px; }
 .nm-card { flex: 1; background: var(--white); border-radius: var(--radius-sm); padding: 18px 14px; box-shadow: var(--shadow); text-align: center; }
 .nm-char { font-family: 'Noto Serif TC',serif; font-size: 32px; font-weight: 700; color: var(--crimson); margin-bottom: 8px; }
@@ -143,6 +138,11 @@ body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color:
 .mi-kws { display:flex; flex-wrap:wrap; gap:6px; }
 .mi-kw { background:var(--crimson-pale); color:var(--crimson); font-size:11.5px; padding:3px 10px; border-radius:100px; font-weight:500; }
 .mi-kw.lim { background:#F5EDD8; color:#6B3A00; }
+
+/* 飲品卡片差異化：金色「飲品」標籤取代價格、卡片頂部金色細邊 */
+.mi-card.drink { border-top: 2px solid var(--gold); background: linear-gradient(180deg, #FFFBF1 0%, var(--white) 30%); }
+.mi-tag-drink { display:inline-flex; align-items:center; gap:5px; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%); color: var(--ink); font-size: 11px; font-weight: 700; letter-spacing: .15em; padding: 5px 14px; border-radius: 100px; box-shadow: 0 2px 6px rgba(191,164,111,.35); white-space: nowrap; flex-shrink: 0; }
+.mi-tag-drink::before { content: '🥤'; font-size: 12px; }
 
 .script-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); }
 .s-block { display: flex; border-bottom: 1px solid var(--cream-dark); }
@@ -383,6 +383,145 @@ body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color:
 .sg-body { padding:14px 16px 18px; }
 .sg-name { font-family:'Noto Serif TC',serif; font-size:15px; font-weight:700; color:var(--ink); line-height:1.4; }
 
+/* ============== 品牌故事·子區塊小標題 ============== */
+.story-sub { margin-bottom: 16px; }
+.story-sub .sec-label { font-size: 10px; }
+.story-sub h3 { font-family: 'Noto Serif TC', serif; font-size: 20px; font-weight: 700; color: var(--ink); line-height: 1.4; margin-top: 4px; }
+.story-block { margin-bottom: 36px; }
+.story-block:last-of-type { margin-bottom: 0; }
+
+/* ============== 平祿壽司的歷史篇章｜自動播放輪播 ============== */
+.story-carousel {
+  background: var(--white);
+  border: 1px solid var(--cream-dark);
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.story-cv {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: var(--cream);
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
+}
+.story-track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  transition: transform .5s cubic-bezier(.4,0,.2,1);
+  will-change: transform;
+}
+.story-slide {
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+.story-imgwrap {
+  width: 100%;
+  height: 100%;
+  background: var(--cream);
+  position: relative;
+  overflow: hidden;
+}
+.story-imgwrap.zoomable { cursor: zoom-in; }
+.story-imgwrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+  display: block;
+  pointer-events: none; /* 讓 click 事件落在 imgwrap，方便 lightbox 觸發與滑動判斷 */
+}
+.story-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(26,18,8,.75);
+  border: 1px solid rgba(191,164,111,.4);
+  color: var(--cream);
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  line-height: 1;
+  z-index: 5;
+  box-shadow: 0 4px 12px rgba(0,0,0,.25);
+  transition: background .2s ease, border-color .2s ease, transform .15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.story-arrow:hover { background: var(--crimson); border-color: var(--gold); }
+.story-arrow:active { transform: translateY(-50%) scale(.92); }
+.story-prev { left: 10px; }
+.story-next { right: 10px; }
+.story-caption {
+  padding: 16px 20px 14px;
+  text-align: center;
+  background: var(--white);
+  border-top: 1px solid var(--cream-dark);
+  min-height: 92px;
+}
+.story-title {
+  font-family: 'Noto Serif TC', serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  margin-bottom: 6px;
+  line-height: 1.45;
+}
+.story-desc {
+  font-size: 13px;
+  color: var(--ink-mid);
+  line-height: 1.7;
+}
+.story-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 20px 16px;
+  background: var(--white);
+}
+.story-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--cream-dark);
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: width .25s ease, background .25s ease, border-radius .25s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.story-dot:hover { background: var(--gold-light); }
+.story-dot.active { background: var(--crimson); width: 24px; border-radius: 100px; }
+.story-counter {
+  font-family: 'DM Serif Display', serif;
+  font-size: 11px;
+  letter-spacing: .15em;
+  color: var(--ink-soft);
+  margin-left: 8px;
+  opacity: .8;
+}
+@media (max-width: 480px) {
+  .story-arrow { width: 34px; height: 34px; font-size: 18px; }
+  .story-prev { left: 8px; }
+  .story-next { right: 8px; }
+  .story-caption { padding: 14px 16px 12px; min-height: 88px; }
+  .story-title { font-size: 14px; }
+  .story-desc { font-size: 12.5px; }
+}
+
 /* ============== 其他特色 Feature Highlights ============== */
 .feat-grid { display: grid; grid-template-columns: 1fr; gap: 14px; }
 .feat-card { background: var(--white); border: 1px solid var(--cream-dark); border-radius: var(--radius); padding: 22px 20px; box-shadow: var(--shadow); display: flex; flex-direction: column; align-items: center; text-align: center; gap: 10px; transition: box-shadow .25s ease, transform .25s ease; }
@@ -407,6 +546,12 @@ body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color:
 .feat-grid-sub { display: grid; grid-template-columns: 1fr; gap: 14px; }
 @media (min-width: 720px) {
   .feat-grid-sub { grid-template-columns: 1fr 1fr 1fr; gap: 16px; }
+}
+
+/* 優惠／服務四張卡片：手機 1 欄、桌機 2×2 */
+.feat-grid-svc { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+@media (min-width: 540px) {
+  .feat-grid-svc { grid-template-columns: 1fr 1fr; gap: 14px; }
 }
 
 /* ============== Logo 設計理念 ============== */
@@ -488,17 +633,29 @@ const DATA = {
     { year:"2023", text:"第二間分店「松竹店」於台中北屯松竹路開設。" },
     { year:"2025", text:"第三間分店「永順店」於台中南屯永順路開設。" },
   ],
+  // 平祿壽司的歷史篇章：橫向滑動漫畫卡片
+  storyChapters: [
+    { src:"assets/images/story/story1.png", title:"1958｜大阪元祿壽司起源",      desc:"平祿壽司的前身元祿壽司，最早於大阪展開品牌起點。" },
+    { src:"assets/images/story/story2.png", title:"1967｜仙台東日本第一家迴轉壽司", desc:"於宮城縣仙台市開立東日本第一家迴轉壽司店，奠定品牌歷史地位。" },
+    { src:"assets/images/story/story3.png", title:"靈感誕生｜圓桌轉盤的啟發",      desc:"江川金鐘先生從中華料理圓桌轉盤獲得靈感，思考自動化壽司店的可能性。" },
+    { src:"assets/images/story/story4.png", title:"壽司革命｜迴轉設備誕生",         desc:"江川金鐘先生與白石義明先生攜手合作，推動迴轉壽司的新型態。" },
+    { src:"assets/images/story/story5.png", title:"發展版圖｜名古屋向東西延伸",     desc:"以名古屋為中心，西日本由元祿壽司發展，東日本由平祿壽司延續。" },
+    { src:"assets/images/story/story6.png", title:"1996｜正名平祿壽司與台灣展店",   desc:"品牌正式更名為平祿壽司，並於 2019、2023、2025 年陸續展開台灣三店。" },
+  ],
   // 分店環境導覽：tabs（歷史介紹／五權店／松竹店／永順店）
   // 歷史介紹預設展開，內容沿用 DATA.timeline
   storeGallery: [
     { id:"wuquan", name:"五權店", items:[
-      { title:"領檯設計",            src:"assets/images/stores/wuquan/reception.jpg",     desc:"呈現五權店接待區與品牌第一印象。" },
-      { title:"門口設計",            src:"assets/images/stores/wuquan/entrance.jpg",      desc:"呈現五權店外觀，適合作為探店影片開場畫面。" },
+      { title:"領檯設計",            src:"assets/images/stores/wuquan/reception.jpg",         desc:"呈現五權店接待區與品牌第一印象。" },
+      { title:"領檯設計理念",        src:"assets/images/stores/wuquan/reception-concept.jpg", desc:"" },
+      { title:"門口設計",            src:"assets/images/stores/wuquan/entrance.jpg",          desc:"呈現五權店外觀，適合作為探店影片開場畫面。" },
       { title:"吧台設計",            src:"assets/images/stores/wuquan/counter.jpg",       desc:"經典吧台座位，適合一人用餐與壽司近距離拍攝。" },
       { title:"新幹線、火箭送餐車",  src:"assets/images/stores/wuquan/delivery-car.jpg",  desc:"特色送餐設備，增加用餐互動感與短影音亮點。" },
+      { title:"飲料自助吧",          src:"assets/images/stores/wuquan/drink-bar.jpg",     desc:"" },
     ]},
     { id:"songzhu", name:"松竹店", items:[
       { title:"領檯設計",                src:"assets/images/stores/songzhu/reception.jpg",            desc:"展現松竹店接待區與日式品牌氛圍。" },
+      { title:"領檯、門口設計理念",      src:"assets/images/stores/songzhu/reception-concept.jpg",    desc:"" },
       { title:"門口設計",                src:"assets/images/stores/songzhu/entrance.jpg",             desc:"適合作為探店影片開場畫面。" },
       { title:"包廂用餐區",              src:"assets/images/stores/songzhu/private-room.jpg",         desc:"適合家庭、親子與朋友聚餐，具用餐隱私感。" },
       { title:"飲料自助吧",              src:"assets/images/stores/songzhu/drink-bar.jpg",            desc:"分店特色之一，適合拍攝自助取飲料畫面。" },
@@ -523,7 +680,7 @@ const DATA = {
   checklist: [
     { cat:"🍣 餐點亮點", items:[{t:"冰鮮鮭魚",n:"必拍"},{t:"新品上市",n:""},{t:"分店限定餐點",n:""}] },
     { cat:"🏮 空間亮點", items:[{t:"門口／招牌",n:""},{t:"吧台座位",n:""},{t:"飲料自助吧",n:""},{t:"迴轉壽司台",n:""},{t:"門簾設計特寫",n:"松竹・永順"},{t:"包廂座位",n:"松竹・永順"}] },
-    { cat:"✨ 體驗亮點", items:[{t:"QR Code 點餐",n:""},{t:"迴轉壽司取餐",n:""},{t:"動物造型送餐車",n:"必拍"},{t:"帶位機器人",n:""},{t:"自助飲料吧取飲料",n:""},{t:"小丑氣球互動",n:""},{t:"餐點大合照",n:""}] },
+    { cat:"✨ 體驗亮點", items:[{t:"QR Code 點餐",n:""},{t:"迴轉壽司取餐",n:""},{t:"造型送餐車",n:""},{t:"帶位機器人",n:""},{t:"自助飲料吧取飲料",n:""},{t:"小丑氣球互動",n:""},{t:"餐點大合照",n:""}] },
   ],
   // 推薦拍攝餐點：新品上市為三間分店共用；限定餐點依分店分別顯示
   // 「intro / angles / kws」欄位皆保留（待補）狀態，由內部後續補上
@@ -535,8 +692,9 @@ const DATA = {
   ],
   menuLimited: {
     wuquan: [
-      { name:"滿盛玉子燒",         price:40, en:"Full Tamagoyaki",          img:"assets/images/menu/limited/wuquan/full-tamagoyaki.png",   intro:"厚實玉子燒搭配蘆筍與蟹肉，口感柔嫩，份量感十足。", angles:["拍攝玉子燒厚度","蘆筍與蟹肉配料","斷面細節"], kws:["玉子燒","蟹肉","份量感"] },
-      { name:"唐揚章魚小丸子",     price:70, en:"Fried Octopus Balls",      img:"assets/images/menu/limited/wuquan/fried-octopus-balls.png", intro:"", angles:[], kws:[] },
+      { name:"滿盛玉子燒",         price:40, en:"Full Tamagoyaki",          img:"assets/images/menu/limited/wuquan/full-tamagoyaki.png",      intro:"厚實玉子燒搭配蘆筍與蟹肉，口感柔嫩，份量感十足。", angles:["拍攝玉子燒厚度","蘆筍與蟹肉配料","斷面細節"], kws:["玉子燒","蟹肉","份量感"] },
+      { name:"唐揚章魚小丸子",     price:70, en:"Fried Octopus Balls",      img:"assets/images/menu/limited/wuquan/fried-octopus-balls.png",  intro:"外酥內軟的章魚小丸子，搭配唐揚口感，鹹香涮嘴。", angles:["近拍酥炸外層","章魚小丸子堆疊感","醬料光澤"], kws:["章魚小丸子","唐揚","酥香"] },
+      { name:"麝香葡萄",           kind:"drink",                              en:"Muscat Grape Drink",       img:"assets/images/menu/limited/wuquan/muscat-grape-drink.png",  intro:"嚴選麝香葡萄風味，清爽順口、帶有自然果香。",     angles:[],                                              kws:["麝香葡萄","清爽","果香"] },
     ],
     songzhu: [
       { name:"豆皮三味",            price:60, en:"Three Flavors Inari Sushi",      img:"assets/images/menu/limited/songzhu/three-flavors-inari-sushi.png",   intro:"", angles:[], kws:[] },
@@ -596,41 +754,88 @@ const DATA = {
   <div class="section reveal">
     <div class="sec-label">BRAND STORY</div>
     <h2 class="sec-title">品牌故事</h2>
-    <div class="tagline-box"><p id="tagline-text"></p><div class="src">— 平祿壽司 品牌定位</div></div>
-    <div class="name-meaning" id="name-meaning"></div>
 
-    <!-- Logo 設計理念 -->
-    <div class="sec-label" style="margin-top:8px">LOGO DESIGN</div>
-    <h3 class="sec-title" style="font-size:20px;margin-bottom:18px">Logo 設計理念</h3>
-    <div class="logo-meaning">
-      <div class="lm-logo-wrap">
-        <img class="lm-logo" src="assets/images/logo/heiroku-logo2.png" alt="平祿壽司 Logo"
-             onerror="this.outerHTML='&lt;div class=&quot;lm-logo-fallback&quot;&gt;平祿壽司 Logo&lt;/div&gt;'">
+    <!-- 1. 平祿壽司的歷史篇章（自動播放輪播） -->
+    <div class="story-block">
+      <div class="story-sub">
+        <div class="sec-label">HISTORY STORY</div>
+        <h3>平祿壽司的歷史篇章</h3>
       </div>
-      <div class="lm-divider"></div>
-      <p class="lm-desc">這三個顏色代表平祿壽司最重視的三個元素：顧客、合作夥伴與內部團隊。</p>
-      <div class="lm-colors">
-        <div class="lm-col">
-          <div class="lm-dot red" aria-hidden="true"></div>
-          <div class="lm-col-name red">RED</div>
-          <div class="lm-col-label">客人</div>
+      <div class="story-carousel">
+        <div class="story-cv" id="story-cv">
+          <div class="story-track" id="story-track"></div>
+          <button class="story-arrow story-prev" id="story-prev" type="button" aria-label="上一張">‹</button>
+          <button class="story-arrow story-next" id="story-next" type="button" aria-label="下一張">›</button>
         </div>
-        <div class="lm-col">
-          <div class="lm-dot purple" aria-hidden="true"></div>
-          <div class="lm-col-name purple">PURPLE</div>
-          <div class="lm-col-label">廠商</div>
+        <div class="story-caption">
+          <div class="story-title" id="story-title"></div>
+          <div class="story-desc" id="story-desc"></div>
         </div>
-        <div class="lm-col">
-          <div class="lm-dot green" aria-hidden="true"></div>
-          <div class="lm-col-name green">GREEN</div>
-          <div class="lm-col-label">同仁</div>
+        <div class="story-dots" id="story-dots"></div>
+      </div>
+    </div>
+
+    <!-- 2. 歷史時間線 -->
+    <div class="story-block">
+      <div class="story-sub">
+        <div class="sec-label">TIMELINE</div>
+        <h3>品牌歷史時間線</h3>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+
+    <!-- 3. 品牌理念：平／祿兩字含義 -->
+    <div class="story-block">
+      <div class="story-sub">
+        <div class="sec-label">BRAND PHILOSOPHY</div>
+        <h3>品牌理念</h3>
+      </div>
+      <div class="name-meaning" id="name-meaning"></div>
+    </div>
+
+    <!-- 4. Logo 設計理念 -->
+    <div class="story-block">
+      <div class="story-sub">
+        <div class="sec-label">LOGO DESIGN</div>
+        <h3>Logo 設計理念</h3>
+      </div>
+      <div class="logo-meaning">
+        <div class="lm-logo-wrap">
+          <img class="lm-logo" src="assets/images/logo/heiroku-logo2.png" alt="平祿壽司 Logo"
+               onerror="this.outerHTML='&lt;div class=&quot;lm-logo-fallback&quot;&gt;平祿壽司 Logo&lt;/div&gt;'">
+        </div>
+        <div class="lm-divider"></div>
+        <p class="lm-desc">這三個顏色代表平祿壽司最重視的三個元素：顧客、合作夥伴與內部團隊。</p>
+        <div class="lm-colors">
+          <div class="lm-col">
+            <div class="lm-dot red" aria-hidden="true"></div>
+            <div class="lm-col-name red">RED</div>
+            <div class="lm-col-label">客人</div>
+          </div>
+          <div class="lm-col">
+            <div class="lm-dot purple" aria-hidden="true"></div>
+            <div class="lm-col-name purple">PURPLE</div>
+            <div class="lm-col-label">廠商</div>
+          </div>
+          <div class="lm-col">
+            <div class="lm-dot green" aria-hidden="true"></div>
+            <div class="lm-col-name green">GREEN</div>
+            <div class="lm-col-label">同仁</div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="sg-section">
-      <div class="sg-tabs" id="sg-tabs"></div>
-      <div id="sg-panels"></div>
+    <!-- 5. 分店環境照片 -->
+    <div class="story-block">
+      <div class="story-sub">
+        <div class="sec-label">STORE ENVIRONMENT</div>
+        <h3>分店環境照片</h3>
+      </div>
+      <div class="sg-section">
+        <div class="sg-tabs" id="sg-tabs"></div>
+        <div id="sg-panels"></div>
+      </div>
     </div>
   </div>
 </div>
@@ -673,6 +878,34 @@ const DATA = {
         <div class="feat-title">QR Code 點餐</div>
         <div class="feat-desc">手機掃碼點餐</div>
         <div class="feat-tag">便利服務</div>
+      </div>
+    </div>
+
+    <!-- 優惠／服務四張卡片 -->
+    <div class="feat-grid-svc">
+      <div class="feat-card">
+        <div class="feat-ic">🛍️</div>
+        <div class="feat-title">外帶自取享95折</div>
+        <div class="feat-desc">外帶自取優惠</div>
+        <div class="feat-tag">外帶優惠</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ic">🎂</div>
+        <div class="feat-title">當日壽星享85折</div>
+        <div class="feat-desc">生日用餐優惠</div>
+        <div class="feat-tag">壽星優惠</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ic">🩺</div>
+        <div class="feat-title">醫護人員享9折</div>
+        <div class="feat-desc">醫護專屬優惠</div>
+        <div class="feat-tag">醫護優惠</div>
+      </div>
+      <div class="feat-card">
+        <div class="feat-ic">🛵</div>
+        <div class="feat-title">雙外送平台上線</div>
+        <div class="feat-desc">在家也吃得到</div>
+        <div class="feat-tag">外送服務</div>
       </div>
     </div>
   </div>
@@ -767,21 +1000,122 @@ const DATA = {
 <script>
 (function(){
 document.getElementById('hero-desc').textContent = DATA.brand.origin;
-document.getElementById('tagline-text').textContent = DATA.brand.tagline;
+
+// Timeline（獨立區塊）
+var tlEl = document.getElementById('timeline');
+if (tlEl) {
+  tlEl.innerHTML = DATA.timeline.map(function(t){
+    return '<div class="tl-item"><div class="tl-year">'+t.year+'</div><div class="tl-text">'+t.text+'</div></div>';
+  }).join('');
+}
+
+// 歷史篇章｜自動播放輪播（40s／箭頭／圓點／觸控滑動，點圖開 lightbox）
+(function initStoryCarousel(){
+  var trackEl  = document.getElementById('story-track');
+  var dotsEl   = document.getElementById('story-dots');
+  var titleEl  = document.getElementById('story-title');
+  var descEl   = document.getElementById('story-desc');
+  var prevEl   = document.getElementById('story-prev');
+  var nextEl   = document.getElementById('story-next');
+  var cvEl     = document.getElementById('story-cv');
+  if (!trackEl || !dotsEl || !DATA.storyChapters || !DATA.storyChapters.length) return;
+
+  var AUTOPLAY_MS = 40000;
+  var SWIPE_THRESHOLD = 40;
+  var total = DATA.storyChapters.length;
+  var idx = 0;
+  var timer = null;
+
+  // 渲染所有 slide 與 dot
+  var slidesHtml = '', dotsHtml = '';
+  DATA.storyChapters.forEach(function(c, i){
+    var safeTitle = (c.title||'').replace(/"/g, '&quot;');
+    var safeSrc   = (c.src||'').replace(/"/g, '&quot;');
+    slidesHtml += '<div class="story-slide">'
+      + '<div class="story-imgwrap zoomable" data-zoom-src="'+safeSrc+'" data-zoom-title="'+safeTitle+'" role="button" tabindex="0" aria-label="放大檢視：'+safeTitle+'">'
+      +   '<img src="'+c.src+'" alt="'+safeTitle+'" loading="lazy" onerror="_storyFallback(this)">'
+      + '</div>'
+    + '</div>';
+    dotsHtml += '<button class="story-dot'+(i===0?' active':'')+'" data-idx="'+i+'" type="button" aria-label="第 '+(i+1)+' 張"></button>';
+  });
+  trackEl.innerHTML = slidesHtml;
+  dotsEl.innerHTML  = dotsHtml;
+
+  function updateUI(){
+    trackEl.style.transform = 'translateX(-' + (idx * 100) + '%)';
+    if (titleEl) titleEl.textContent = DATA.storyChapters[idx].title || '';
+    if (descEl)  descEl.textContent  = DATA.storyChapters[idx].desc  || '';
+    var dots = dotsEl.querySelectorAll('.story-dot');
+    for (var i=0; i<dots.length; i++) dots[i].classList.toggle('active', i === idx);
+  }
+  function go(target){
+    idx = ((target % total) + total) % total;
+    updateUI();
+  }
+  function next(){ go(idx + 1); }
+  function prev(){ go(idx - 1); }
+  function startAutoplay(){
+    if (timer) clearInterval(timer);
+    timer = setInterval(next, AUTOPLAY_MS);
+  }
+  function resetAutoplay(){ startAutoplay(); }
+
+  // 初始畫面
+  updateUI();
+  startAutoplay();
+
+  // 箭頭
+  if (prevEl) prevEl.addEventListener('click', function(e){ e.stopPropagation(); prev(); resetAutoplay(); });
+  if (nextEl) nextEl.addEventListener('click', function(e){ e.stopPropagation(); next(); resetAutoplay(); });
+
+  // 圓點
+  dotsEl.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.story-dot') : null;
+    if (!btn) return;
+    e.stopPropagation();
+    go(parseInt(btn.getAttribute('data-idx'), 10) || 0);
+    resetAutoplay();
+  });
+
+  // 觸控滑動（手機左右滑切換；滑超過閾值時阻擋 lightbox 誤觸）
+  if (cvEl) {
+    var sx = 0, sy = 0, dx = 0, dragging = false;
+    cvEl.addEventListener('touchstart', function(e){
+      if (e.touches.length !== 1) return;
+      sx = e.touches[0].clientX;
+      sy = e.touches[0].clientY;
+      dx = 0;
+      dragging = false;
+    }, { passive: true });
+    cvEl.addEventListener('touchmove', function(e){
+      if (e.touches.length !== 1) return;
+      dx = e.touches[0].clientX - sx;
+      var dy = e.touches[0].clientY - sy;
+      if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) dragging = true;
+    }, { passive: true });
+    cvEl.addEventListener('touchend', function(){
+      if (dragging && Math.abs(dx) > SWIPE_THRESHOLD) {
+        if (dx < 0) next(); else prev();
+        resetAutoplay();
+        // 阻擋滑動後 0.35s 內的 click（避免誤開 lightbox）
+        window.__storySwipeBlock = true;
+        setTimeout(function(){ window.__storySwipeBlock = false; }, 350);
+      }
+    });
+  }
+})();
 
 // Name meaning
 var nmEl = document.getElementById('name-meaning');
 DATA.nameMeaning.forEach(function(n){ nmEl.innerHTML += '<div class="nm-card"><div class="nm-char">'+n.char+'</div><div class="nm-title">'+n.title+'</div><div class="nm-desc">'+n.desc+'</div></div>'; });
 
-// Store Gallery（分店環境導覽：歷史介紹 + 三家分店）
+// 分店環境照片：只保留五權／松竹／永順，預設第一間 active
 var sgTabsEl=document.getElementById('sg-tabs'), sgPanelsEl=document.getElementById('sg-panels');
-// 歷史介紹 tab + 面板（內容＝品牌時間軸）
-sgTabsEl.innerHTML='<button class="sg-tab active" data-sg="history">歷史介紹</button>';
-var historyHtml='<div class="timeline">'+DATA.timeline.map(function(t){ return '<div class="tl-item"><div class="tl-year">'+t.year+'</div><div class="tl-text">'+t.text+'</div></div>'; }).join('')+'</div>';
-sgPanelsEl.innerHTML='<div class="sg-panel active" data-sgp="history">'+historyHtml+'</div>';
-// 三家分店 tabs + 面板（圖卡網格）
-DATA.storeGallery.forEach(function(store){
-  sgTabsEl.innerHTML+='<button class="sg-tab" data-sg="'+store.id+'">'+store.name+'</button>';
+sgTabsEl.innerHTML='';
+sgPanelsEl.innerHTML='';
+DATA.storeGallery.forEach(function(store, idx){
+  var isFirst = (idx===0);
+  sgTabsEl.innerHTML+='<button class="sg-tab'+(isFirst?' active':'')+'" data-sg="'+store.id+'">'+store.name+'</button>';
   var cards=store.items.map(function(it){
     var safeAlt=it.title.replace(/"/g,'&quot;');
     var safeSrc=(it.src||'').replace(/"/g,'&quot;');
@@ -792,7 +1126,7 @@ DATA.storeGallery.forEach(function(store){
       +  '<div class="sg-body"><div class="sg-name">'+it.title+'</div></div>'
       +'</div>';
   }).join('');
-  sgPanelsEl.innerHTML+='<div class="sg-panel" data-sgp="'+store.id+'"><div class="sg-grid">'+cards+'</div></div>';
+  sgPanelsEl.innerHTML+='<div class="sg-panel'+(isFirst?' active':'')+'" data-sgp="'+store.id+'"><div class="sg-grid">'+cards+'</div></div>';
 });
 // Tab 切換事件
 sgTabsEl.addEventListener('click', function(e){
@@ -806,6 +1140,7 @@ sgTabsEl.addEventListener('click', function(e){
 function _miCard(m, isLim){
   var altSafe=(m.name||'').replace(/"/g,'&quot;');
   var srcSafe=(m.img||'').replace(/"/g,'&quot;');
+  var isDrink = (m.kind === 'drink');
   var introHtml = m.intro ? '<div class="mi-intro">'+m.intro+'</div>' : '<div class="mi-intro mi-empty">（餐點簡短介紹待補）</div>';
   var anglesHtml = (m.angles && m.angles.length)
     ? '<ul class="mi-angles">'+m.angles.map(function(a){ return '<li>'+a+'</li>'; }).join('')+'</ul>'
@@ -814,12 +1149,20 @@ function _miCard(m, isLim){
     ? '<div class="mi-kws">'+m.kws.map(function(k){ return '<span class="mi-kw'+(isLim?' lim':'')+'">'+k+'</span>'; }).join('')+'</div>'
     : '<div class="mi-empty">（文案關鍵字待補）</div>';
   var ttlCls = isLim ? ' lim' : '';
-  return '<div class="mi-card">'
+  // 價格區：飲品改用金色「飲品」chip；其他維持 $價格
+  var priceHtml = isDrink
+    ? '<span class="mi-tag-drink">飲品</span>'
+    : '<div class="mi-price'+(isLim?' lim':'')+'">$'+m.price+'</div>';
+  // 建議拍攝角度：飲品省略整段
+  var anglesSection = isDrink
+    ? ''
+    : '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">建議拍攝角度</div>'+anglesHtml+'</div>';
+  return '<div class="mi-card'+(isDrink?' drink':'')+'">'
     + '<div class="mi-imgwrap"><img src="'+srcSafe+'" alt="'+altSafe+'" loading="lazy" onerror="_miFallback(this)"></div>'
     + '<div class="mi-body">'
-    +   '<div class="mi-head"><div class="mi-name">'+m.name+'</div><div class="mi-price'+(isLim?' lim':'')+'">$'+m.price+'</div></div>'
+    +   '<div class="mi-head"><div class="mi-name">'+m.name+'</div>'+priceHtml+'</div>'
     +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">餐點簡短介紹</div>'+introHtml+'</div>'
-    +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">建議拍攝角度</div>'+anglesHtml+'</div>'
+    +   anglesSection
     +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">文案關鍵字</div>'+kwsHtml+'</div>'
     + '</div>'
     + '</div>';
@@ -1023,6 +1366,18 @@ function _sgFallback(img){
   wrap.innerHTML = '<div class="sg-ph"><div class="sg-ph-ic">📷</div><div class="sg-ph-lbl">圖片待補</div></div>';
 }
 
+/* 歷史篇章圖片 fallback：圖片載入失敗時顯示「圖片待補」，並移除 zoomable 互動 */
+function _storyFallback(img){
+  var wrap = img && img.parentElement; if (!wrap) return;
+  wrap.classList.remove('zoomable');
+  wrap.removeAttribute('data-zoom-src');
+  wrap.removeAttribute('data-zoom-title');
+  wrap.removeAttribute('role');
+  wrap.removeAttribute('tabindex');
+  wrap.removeAttribute('aria-label');
+  wrap.innerHTML = '<div class="sg-ph"><div class="sg-ph-ic">📷</div><div class="sg-ph-lbl">圖片待補</div></div>';
+}
+
 /* ====================================================
    圖片放大 Lightbox：點圖開啟、點背景／✕／ESC 關閉
 ==================================================== */
@@ -1058,9 +1413,11 @@ function _sgFallback(img){
     setTimeout(function(){ lbMedia.innerHTML=''; lbCap.textContent=''; }, 280);
   }
 
-  // 事件代理：點任一張 .sg-imgwrap.zoomable 開啟
+  // 事件代理：點任一張可放大圖片（分店環境、歷史篇章）開啟
   document.addEventListener('click', function(e){
-    var trigger = e.target.closest ? e.target.closest('.sg-imgwrap.zoomable') : null;
+    // 若剛完成輪播觸控滑動，跳過此次 click 以避免誤觸放大
+    if (window.__storySwipeBlock) return;
+    var trigger = e.target.closest ? e.target.closest('.sg-imgwrap.zoomable, .story-imgwrap.zoomable') : null;
     if (trigger) {
       var src = trigger.getAttribute('data-zoom-src') || '';
       var title = trigger.getAttribute('data-zoom-title') || '';
@@ -1084,12 +1441,10 @@ function _sgFallback(img){
     }
   });
 
-  // 關閉按鈕
+  // 關閉按鈕（保留；與下方 lightbox-wide click 共同關閉）
   lbClose.addEventListener('click', function(e){ e.stopPropagation(); closeLightbox(); });
-  // 點背景關閉（點到內容區不關閉）
-  lb.addEventListener('click', function(e){
-    if (e.target === lb) closeLightbox();
-  });
+  // 點擊任意處（背景、圖片、標題、空白）皆關閉
+  lb.addEventListener('click', function(){ closeLightbox(); });
 })();
 </script>
 </body>
