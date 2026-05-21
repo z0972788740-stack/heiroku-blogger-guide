@@ -65,11 +65,67 @@ body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color:
 .tab-btn.active { background: var(--crimson); border-color: var(--crimson); color: var(--cream); }
 .store-card { background: var(--white); border-radius: var(--radius); overflow: hidden; box-shadow: var(--shadow); display: none; animation: fadeUp .4s ease both; }
 .store-card.active { display: block; }
-.sc-head { background: var(--crimson); padding: 24px 24px 20px; color: var(--cream); }
+.sc-head { background: var(--crimson); padding: 24px 24px 20px; color: var(--cream); display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+.sc-head-main { flex: 1; min-width: 0; }
 .sc-tag { font-size: 10px; letter-spacing: .25em; color: var(--gold); font-weight: 700; margin-bottom: 8px; }
 .sc-name { font-family: 'Noto Serif TC',serif; font-size: 22px; font-weight: 700; margin-bottom: 6px; }
 .sc-desc { font-size: 13px; color: rgba(247,241,232,.75); line-height: 1.7; }
 .sc-body { padding: 24px; }
+
+/* 分店卡片內｜內用／外帶菜單按鈕 */
+.sc-menu-btns { display: flex; flex-direction: column; gap: 8px; flex-shrink: 0; }
+.menu-btn { background: rgba(255,255,255,.10); border: 1px solid rgba(191,164,111,.45); color: var(--cream); font-family: 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: 600; padding: 8px 14px; border-radius: 100px; cursor: pointer; white-space: nowrap; letter-spacing: .05em; transition: background .2s ease, color .2s ease, border-color .2s ease, transform .15s ease; -webkit-tap-highlight-color: transparent; }
+.menu-btn:hover { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+.menu-btn:active { transform: scale(.96); }
+@media (max-width: 480px) {
+  .sc-head { flex-direction: column; gap: 14px; padding: 22px 20px 18px; }
+  .sc-menu-btns { flex-direction: row; width: 100%; gap: 10px; }
+  .menu-btn { flex: 1; text-align: center; padding: 9px 10px; font-size: 12.5px; }
+}
+
+/* 菜單彈窗 Modal */
+.menu-modal { position: fixed; inset: 0; z-index: 9999; display: none; align-items: center; justify-content: center; }
+.menu-modal.open { display: flex; }
+.menu-modal-bg { position: absolute; inset: 0; background: rgba(26,18,8,.78); cursor: pointer; animation: menuBgIn .25s ease; }
+@keyframes menuBgIn { from { opacity: 0; } to { opacity: 1; } }
+.menu-modal-content { position: relative; width: min(92vw, 760px); max-height: 92vh; background: var(--cream); border-radius: var(--radius); border: 1px solid var(--cream-dark); display: flex; flex-direction: column; overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,.4); animation: menuModalIn .28s cubic-bezier(.4,0,.2,1); }
+@keyframes menuModalIn { from { opacity: 0; transform: translateY(16px) scale(.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+.menu-modal-head { display: flex; align-items: center; justify-content: center; padding: 14px 56px; border-bottom: 1px solid var(--cream-dark); background: var(--white); position: relative; }
+.menu-modal-title { font-family: 'Noto Serif TC', serif; font-size: 16px; font-weight: 700; color: var(--ink); text-align: center; }
+.menu-modal-close { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); width: 32px; height: 32px; border-radius: 50%; background: var(--cream); border: 1px solid var(--cream-dark); color: var(--ink-mid); font-size: 14px; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; transition: background .2s, color .2s, border-color .2s; }
+.menu-modal-close:hover { background: var(--crimson); color: var(--cream); border-color: var(--crimson); }
+.menu-modal-stage { position: relative; flex: 1; display: flex; align-items: center; justify-content: center; background: var(--cream); min-height: 0; overflow: hidden; touch-action: pan-y; }
+.menu-modal-imgwrap { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; padding: 18px; position: relative; }
+.menu-modal-imgwrap img { max-width: 100%; max-height: 68vh; width: auto; height: auto; object-fit: contain; display: block; box-shadow: 0 4px 20px rgba(0,0,0,.12); border-radius: 6px; background: var(--white); }
+.menu-modal-imgwrap.fallback img { display: none; }
+.menu-modal-imgwrap.fallback::after { content: '菜單圖片待補'; display: flex; align-items: center; justify-content: center; position: absolute; left: 18px; right: 18px; top: 18px; bottom: 18px; background: var(--cream-dark); border: 1px dashed var(--ink-soft); border-radius: 8px; color: var(--ink-soft); font-size: 14px; font-weight: 500; letter-spacing: .05em; }
+.menu-modal-arrow { position: absolute; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; border-radius: 50%; background: rgba(26,18,8,.78); border: 1px solid rgba(191,164,111,.45); color: var(--cream); font-size: 22px; font-weight: 700; cursor: pointer; display: flex; align-items: center; justify-content: center; padding: 0; line-height: 1; z-index: 3; box-shadow: 0 4px 12px rgba(0,0,0,.25); transition: background .2s, border-color .2s, transform .15s; -webkit-tap-highlight-color: transparent; }
+.menu-modal-arrow:hover { background: var(--crimson); border-color: var(--gold); }
+.menu-modal-arrow:active { transform: translateY(-50%) scale(.92); }
+.menu-modal-arrow.hidden { display: none; }
+.menu-prev { left: 12px; }
+.menu-next { right: 12px; }
+.menu-modal-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 20px; background: var(--white); border-top: 1px solid var(--cream-dark); }
+.menu-modal-counter { font-family: 'DM Serif Display', serif; font-size: 13px; color: var(--ink-soft); letter-spacing: .15em; min-width: 60px; }
+.menu-modal-counter:empty { visibility: hidden; }
+.menu-modal-dots { display: flex; gap: 8px; flex: 1; justify-content: center; }
+.menu-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--cream-dark); border: none; cursor: pointer; padding: 0; transition: width .25s ease, background .25s ease, border-radius .25s ease; -webkit-tap-highlight-color: transparent; }
+.menu-dot.active { background: var(--crimson); width: 24px; border-radius: 100px; }
+.menu-modal-download { display: inline-flex; align-items: center; gap: 6px; background: var(--crimson); color: var(--cream); font-size: 13px; font-weight: 600; padding: 9px 18px; border-radius: 100px; cursor: pointer; text-decoration: none; letter-spacing: .05em; transition: background .2s; white-space: nowrap; }
+.menu-modal-download:hover { background: var(--ink); }
+@media (max-width: 480px) {
+  .menu-modal-content { width: 96vw; max-height: 94vh; }
+  .menu-modal-head { padding: 12px 48px; }
+  .menu-modal-title { font-size: 14.5px; }
+  .menu-modal-imgwrap { padding: 12px; }
+  .menu-modal-imgwrap img { max-height: 62vh; }
+  .menu-modal-arrow { width: 34px; height: 34px; font-size: 18px; }
+  .menu-prev { left: 6px; }
+  .menu-next { right: 6px; }
+  .menu-modal-footer { padding: 12px 14px; gap: 8px; }
+  .menu-modal-counter { font-size: 12px; min-width: 44px; }
+  .menu-modal-download { font-size: 12.5px; padding: 8px 14px; }
+}
 .sc-sub { font-size: 11px; letter-spacing: .2em; color: var(--crimson); font-weight: 700; margin-bottom: 12px; margin-top: 24px; }
 .sc-sub:first-child { margin-top: 0; }
 .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 4px; }
@@ -673,9 +729,9 @@ const DATA = {
     ]},
   ],
   stores: [
-    { id:"wuquan",   name:"五權店", tag:"台灣第一間分店・2019",     desc:"平祿壽司台灣起點店，主打品牌歷史與經典迴轉壽司體驗。",                       address:"台中市北區五權路409號",         phone:"04-2206-9688", style:"日式經典迴轉壽司風格，傳統日本元素搭配吧台用餐氛圍。",                drinks:"基本飲品供應，免費暢飲。",                                          features:["台灣第一間分店","經典迴轉壽司","吧台座位","一人用餐佳"] },
-    { id:"songzhu",  name:"松竹店", tag:"親子聚餐・家庭友善・2023", desc:"適合家庭、親子與朋友聚餐的舒適分店，布簾包廂設計提供隱私感。",                 address:"台中市北屯區松竹路三段362號",   phone:"04-2298-1668", style:"日式溫馨聚餐風格，包廂、布簾與家庭友善空間，隱私感佳。",              drinks:"飲料自助吧・自由暢飲，適合拍攝取飲料與親子互動畫面。",              features:["飲料自助吧","包廂座位","布簾隱私感","親子聚餐","朋友聚餐","動物造型送餐車"] },
-    { id:"yongshun", name:"永順店", tag:"升級版・19種飲品・2025",   desc:"平祿壽司最新分店，飲料自助吧升級至19種選擇，結合包廂與吧台多元座位設計。",     address:"台中市南屯區永順路599號",       phone:"04-2470-1689", style:"日式現代聚餐風格，新分店空間感，多元座位設計，視覺亮眼。",            drinks:"飲料自助吧升級 19 種選擇・最適合拍攝飲品牆與多樣選擇。",            features:["飲料自助吧19種","包廂座位","吧台座位","多元座位選擇","新穎空間感","動物造型送餐車"] },
+    { id:"wuquan",   name:"五權店", tag:"台灣第一間分店・2019",     desc:"平祿壽司台灣起點店，主打品牌歷史與經典迴轉壽司體驗。",                       address:"台中市北區五權路409號",         phone:"04-2206-9688", style:"日式經典迴轉壽司風格，傳統日本元素搭配吧台用餐氛圍。",                drinks:"提供 5 種人氣飲品，本月全新推出「麝香葡萄」風味，清爽香甜、必喝推薦！",                                          features:["台灣第一間分店","經典迴轉壽司","吧台座位","一人用餐佳"] },
+    { id:"songzhu",  name:"松竹店", tag:"親子聚餐・家庭友善・2023", desc:"適合家庭、親子與朋友聚餐的舒適分店，布簾包廂設計提供隱私感。",                 address:"台中市北屯區松竹路三段362號",   phone:"04-2298-1668", style:"日式溫馨聚餐風格，包廂、布簾與家庭友善空間，隱私感佳。",              drinks:"提供 18 種飲品選擇，特別加入嘉義梅山「甜梅湯」，酸甜回甘、充滿在地記憶點。",              features:["飲料自助吧","包廂座位","布簾隱私感","親子聚餐","朋友聚餐","動物造型送餐車"] },
+    { id:"yongshun", name:"永順店", tag:"升級版・19種飲品・2025",   desc:"平祿壽司最新分店，飲料自助吧升級至19種選擇，結合包廂與吧台多元座位設計。",     address:"台中市南屯區永順路599號",       phone:"04-2470-1689", style:"日式現代聚餐風格，新分店空間感，多元座位設計，視覺亮眼。",            drinks:"提供 19 種飲品選擇，特色推薦「冷萃咖啡」與「蕎麥冬瓜檸」，多樣風味一次滿足。",            features:["飲料自助吧19種","包廂座位","吧台座位","多元座位選擇","新穎空間感","動物造型送餐車"] },
   ],
   checklist: [
     { cat:"🍣 餐點亮點", items:[{t:"冰鮮鮭魚",n:"必拍"},{t:"新品上市",n:""},{t:"分店限定餐點",n:""}] },
@@ -694,7 +750,6 @@ const DATA = {
     wuquan: [
       { name:"滿盛玉子燒",         price:40, en:"Full Tamagoyaki",          img:"assets/images/menu/limited/wuquan/full-tamagoyaki.png",      intro:"厚實玉子燒搭配蘆筍與蟹肉，口感柔嫩，份量感十足。", angles:["拍攝玉子燒厚度","蘆筍與蟹肉配料","斷面細節"], kws:["玉子燒","蟹肉","份量感"] },
       { name:"唐揚章魚小丸子",     price:70, en:"Fried Octopus Balls",      img:"assets/images/menu/limited/wuquan/fried-octopus-balls.png",  intro:"外酥內軟的章魚小丸子，搭配唐揚口感，鹹香涮嘴。", angles:["近拍酥炸外層","章魚小丸子堆疊感","醬料光澤"], kws:["章魚小丸子","唐揚","酥香"] },
-      { name:"麝香葡萄",           kind:"drink",                              en:"Muscat Grape Drink",       img:"assets/images/menu/limited/wuquan/muscat-grape-drink.png",  intro:"嚴選麝香葡萄風味，清爽順口、帶有自然果香。",     angles:[],                                              kws:["麝香葡萄","清爽","果香"] },
     ],
     songzhu: [
       { name:"豆皮三味",            price:60, en:"Three Flavors Inari Sushi",      img:"assets/images/menu/limited/songzhu/three-flavors-inari-sushi.png",   intro:"", angles:[], kws:[] },
@@ -761,7 +816,7 @@ const DATA = {
         <div class="sec-label">HISTORY STORY</div>
         <h3>平祿壽司的歷史篇章</h3>
       </div>
-      <div class="story-carousel">
+      <div class="story-carousel" id="story-carousel">
         <div class="story-cv" id="story-cv">
           <div class="story-track" id="story-track"></div>
           <button class="story-arrow story-prev" id="story-prev" type="button" aria-label="上一張">‹</button>
@@ -897,7 +952,7 @@ const DATA = {
       </div>
       <div class="feat-card">
         <div class="feat-ic">🩺</div>
-        <div class="feat-title">醫護人員享9折</div>
+        <div class="feat-title">醫護人員享95折</div>
         <div class="feat-desc">醫護專屬優惠</div>
         <div class="feat-tag">醫護優惠</div>
       </div>
@@ -985,6 +1040,29 @@ const DATA = {
   </div>
 </div>
 
+<!-- 菜單 DM Modal -->
+<div class="menu-modal" id="menu-modal" role="dialog" aria-modal="true" aria-labelledby="menu-modal-title" aria-hidden="true">
+  <div class="menu-modal-bg" id="menu-modal-bg"></div>
+  <div class="menu-modal-content">
+    <div class="menu-modal-head">
+      <div class="menu-modal-title" id="menu-modal-title">內用菜單</div>
+      <button class="menu-modal-close" id="menu-modal-close" type="button" aria-label="關閉菜單" title="關閉">✕</button>
+    </div>
+    <div class="menu-modal-stage" id="menu-modal-stage">
+      <button class="menu-modal-arrow menu-prev" id="menu-modal-prev" type="button" aria-label="上一張">‹</button>
+      <div class="menu-modal-imgwrap" id="menu-modal-imgwrap">
+        <img id="menu-modal-img" src="" alt="">
+      </div>
+      <button class="menu-modal-arrow menu-next" id="menu-modal-next" type="button" aria-label="下一張">›</button>
+    </div>
+    <div class="menu-modal-footer">
+      <div class="menu-modal-counter" id="menu-modal-counter"></div>
+      <div class="menu-modal-dots" id="menu-modal-dots"></div>
+      <a class="menu-modal-download" id="menu-modal-download" href="#" download>⬇ 下載菜單</a>
+    </div>
+  </div>
+</div>
+
 <!-- 回到頂部 -->
 <button class="to-top" id="to-top" aria-label="回到頂部" title="回到頂部">↑</button>
 
@@ -1020,11 +1098,9 @@ if (tlEl) {
   var cvEl     = document.getElementById('story-cv');
   if (!trackEl || !dotsEl || !DATA.storyChapters || !DATA.storyChapters.length) return;
 
-  var AUTOPLAY_MS = 40000;
   var SWIPE_THRESHOLD = 40;
   var total = DATA.storyChapters.length;
   var idx = 0;
-  var timer = null;
 
   // 渲染所有 slide 與 dot
   var slidesHtml = '', dotsHtml = '';
@@ -1054,19 +1130,30 @@ if (tlEl) {
   }
   function next(){ go(idx + 1); }
   function prev(){ go(idx - 1); }
-  function startAutoplay(){
-    if (timer) clearInterval(timer);
-    timer = setInterval(next, AUTOPLAY_MS);
-  }
-  function resetAutoplay(){ startAutoplay(); }
 
   // 初始畫面
   updateUI();
-  startAutoplay();
+
+  // 進入區塊時自動回到第 1 張（story1）
+  if (cvEl && 'IntersectionObserver' in window) {
+    var carouselEl = document.getElementById('story-carousel') || cvEl;
+    var wasOut = true;
+    var resetObs = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) {
+          if (wasOut) { go(0); }
+          wasOut = false;
+        } else {
+          wasOut = true;
+        }
+      });
+    }, { threshold: 0.4 });
+    resetObs.observe(carouselEl);
+  }
 
   // 箭頭
-  if (prevEl) prevEl.addEventListener('click', function(e){ e.stopPropagation(); prev(); resetAutoplay(); });
-  if (nextEl) nextEl.addEventListener('click', function(e){ e.stopPropagation(); next(); resetAutoplay(); });
+  if (prevEl) prevEl.addEventListener('click', function(e){ e.stopPropagation(); prev(); });
+  if (nextEl) nextEl.addEventListener('click', function(e){ e.stopPropagation(); next(); });
 
   // 圓點
   dotsEl.addEventListener('click', function(e){
@@ -1074,7 +1161,6 @@ if (tlEl) {
     if (!btn) return;
     e.stopPropagation();
     go(parseInt(btn.getAttribute('data-idx'), 10) || 0);
-    resetAutoplay();
   });
 
   // 觸控滑動（手機左右滑切換；滑超過閾值時阻擋 lightbox 誤觸）
@@ -1096,7 +1182,6 @@ if (tlEl) {
     cvEl.addEventListener('touchend', function(){
       if (dragging && Math.abs(dx) > SWIPE_THRESHOLD) {
         if (dx < 0) next(); else prev();
-        resetAutoplay();
         // 阻擋滑動後 0.35s 內的 click（避免誤開 lightbox）
         window.__storySwipeBlock = true;
         setTimeout(function(){ window.__storySwipeBlock = false; }, 350);
@@ -1185,7 +1270,13 @@ var stEl=document.getElementById('store-tabs'), scEl=document.getElementById('st
 DATA.stores.forEach(function(s,i){
   stEl.innerHTML+='<button class="tab-btn'+(i===0?' active':'')+'" onclick="switchStore('+i+')">'+s.name+'</button>';
   scEl.innerHTML+='<div class="store-card'+(i===0?' active':'')+'" id="sc-'+i+'">'
-    +'<div class="sc-head"><div class="sc-tag">'+s.tag+'</div><div class="sc-name">平祿壽司 '+s.name+'</div><div class="sc-desc">'+s.desc+'</div></div>'
+    +'<div class="sc-head">'
+    +  '<div class="sc-head-main"><div class="sc-tag">'+s.tag+'</div><div class="sc-name">平祿壽司 '+s.name+'</div><div class="sc-desc">'+s.desc+'</div></div>'
+    +  '<div class="sc-menu-btns">'
+    +    '<button type="button" class="menu-btn" data-menu-store="'+s.id+'" data-menu-type="dinein" aria-label="開啟'+s.name+'內用菜單">內用菜單</button>'
+    +    '<button type="button" class="menu-btn" data-menu-store="'+s.id+'" data-menu-type="takeout" aria-label="開啟'+s.name+'外帶菜單">外帶菜單</button>'
+    +  '</div>'
+    +'</div>'
     +'<div class="sc-body">'
     +'<div class="sc-sub">📍 分店資訊</div><div class="info-row"><span class="ic">📌</span>'+s.address+'</div><div class="info-row"><span class="ic">📞</span>'+s.phone+'</div>'
     +'<div class="sc-sub">🏮 空間風格</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:8px">'+s.style+'</div>'
@@ -1337,6 +1428,145 @@ toTopBtn.addEventListener('click', function(){
 
 // 初始觸發一次
 updateOnScroll();
+
+/* ====================================================
+   分店菜單 DM 彈窗
+==================================================== */
+(function initMenuModal(){
+  var modal      = document.getElementById('menu-modal');
+  if (!modal) return;
+  var bg         = document.getElementById('menu-modal-bg');
+  var closeBtn   = document.getElementById('menu-modal-close');
+  var titleEl    = document.getElementById('menu-modal-title');
+  var stageEl    = document.getElementById('menu-modal-stage');
+  var imgWrap    = document.getElementById('menu-modal-imgwrap');
+  var imgEl      = document.getElementById('menu-modal-img');
+  var prevBtn    = document.getElementById('menu-modal-prev');
+  var nextBtn    = document.getElementById('menu-modal-next');
+  var counterEl  = document.getElementById('menu-modal-counter');
+  var dotsEl     = document.getElementById('menu-modal-dots');
+  var downloadEl = document.getElementById('menu-modal-download');
+
+  var BASE = 'assets/images/menu-dm/';
+  var MENU = {
+    wuquan:   { name:'五權店', dinein:[BASE+'wuquan-dinein-1.jpg',  BASE+'wuquan-dinein-2.jpg'],  takeout:[BASE+'wuquan-takeout.jpg']  },
+    songzhu:  { name:'松竹店', dinein:[BASE+'songzhu-dinein-1.jpg', BASE+'songzhu-dinein-2.jpg'], takeout:[BASE+'songzhu-takeout.jpg'] },
+    yongshun: { name:'永順店', dinein:[BASE+'yongshun-dinein-1.jpg',BASE+'yongshun-dinein-2.jpg'],takeout:[BASE+'yongshun-takeout.jpg'] }
+  };
+
+  var list = [];
+  var idx = 0;
+
+  function renderDots(){
+    if (list.length <= 1) { dotsEl.innerHTML = ''; return; }
+    var html = '';
+    for (var i = 0; i < list.length; i++) {
+      html += '<button type="button" class="menu-dot'+(i===idx?' active':'')+'" data-menu-idx="'+i+'" aria-label="第 '+(i+1)+' 張"></button>';
+    }
+    dotsEl.innerHTML = html;
+  }
+
+  function render(){
+    imgWrap.classList.remove('fallback');
+    imgEl.style.display = '';
+    var src = list[idx] || '';
+    imgEl.src = src;
+    imgEl.alt = (titleEl.textContent || '') + '（第 ' + (idx+1) + ' 張）';
+    // 下載目前正在預覽的這張
+    downloadEl.href = src;
+    var fname = src.split('/').pop() || 'menu.jpg';
+    downloadEl.setAttribute('download', fname);
+    // 多張時顯示計數與圓點，單張時隱藏切換器
+    if (list.length > 1) {
+      counterEl.textContent = (idx+1) + ' / ' + list.length;
+      prevBtn.classList.remove('hidden');
+      nextBtn.classList.remove('hidden');
+    } else {
+      counterEl.textContent = '';
+      prevBtn.classList.add('hidden');
+      nextBtn.classList.add('hidden');
+    }
+    renderDots();
+  }
+
+  imgEl.addEventListener('error', function(){
+    imgWrap.classList.add('fallback');
+  });
+
+  function open(storeId, type){
+    var data = MENU[storeId];
+    if (!data) return;
+    var arr = (type === 'takeout') ? data.takeout : data.dinein;
+    if (!arr || !arr.length) return;
+    list = arr.slice();
+    idx = 0;
+    titleEl.textContent = data.name + '｜' + (type === 'takeout' ? '外帶菜單' : '內用菜單');
+    render();
+    modal.classList.add('open');
+    modal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function(){ try { closeBtn.focus(); } catch(_){} }, 50);
+  }
+
+  function close(){
+    modal.classList.remove('open');
+    modal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    // 釋放圖片資源，避免下次開啟看到上次殘影
+    setTimeout(function(){ if (!modal.classList.contains('open')) { imgEl.src = ''; imgWrap.classList.remove('fallback'); } }, 280);
+  }
+
+  function next(){ if (list.length<=1) return; idx = (idx+1) % list.length; render(); }
+  function prev(){ if (list.length<=1) return; idx = (idx-1+list.length) % list.length; render(); }
+
+  // 綁定所有 .menu-btn（事件代理，避免重綁）
+  document.addEventListener('click', function(e){
+    var btn = e.target.closest ? e.target.closest('.menu-btn') : null;
+    if (!btn) return;
+    e.preventDefault();
+    open(btn.getAttribute('data-menu-store'), btn.getAttribute('data-menu-type'));
+  });
+
+  closeBtn.addEventListener('click', close);
+  bg.addEventListener('click', close);
+  prevBtn.addEventListener('click', function(e){ e.stopPropagation(); prev(); });
+  nextBtn.addEventListener('click', function(e){ e.stopPropagation(); next(); });
+
+  // 圓點切換
+  dotsEl.addEventListener('click', function(e){
+    var dot = e.target.closest ? e.target.closest('.menu-dot') : null;
+    if (!dot) return;
+    e.stopPropagation();
+    var i = parseInt(dot.getAttribute('data-menu-idx'), 10);
+    if (!isNaN(i) && i >= 0 && i < list.length) { idx = i; render(); }
+  });
+
+  // 鍵盤：Esc 關閉、左右切換
+  document.addEventListener('keydown', function(e){
+    if (!modal.classList.contains('open')) return;
+    if (e.key === 'Escape') { e.preventDefault(); close(); }
+    else if (e.key === 'ArrowRight') { next(); }
+    else if (e.key === 'ArrowLeft')  { prev(); }
+  });
+
+  // 觸控滑動（內用時左右滑切換）
+  var sx = 0, sy = 0, dx = 0, dragging = false;
+  stageEl.addEventListener('touchstart', function(e){
+    if (e.touches.length !== 1) return;
+    sx = e.touches[0].clientX; sy = e.touches[0].clientY; dx = 0; dragging = false;
+  }, { passive: true });
+  stageEl.addEventListener('touchmove', function(e){
+    if (e.touches.length !== 1) return;
+    dx = e.touches[0].clientX - sx;
+    var dy = e.touches[0].clientY - sy;
+    if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 10) dragging = true;
+  }, { passive: true });
+  stageEl.addEventListener('touchend', function(){
+    if (dragging && Math.abs(dx) > 40 && list.length > 1) {
+      if (dx < 0) next(); else prev();
+    }
+  });
+})();
 })();
 
 function switchStore(idx){ document.querySelectorAll('#store-tabs .tab-btn').forEach(function(t,i){ t.classList.toggle('active',i===idx); }); document.querySelectorAll('.store-card').forEach(function(c,i){ c.classList.toggle('active',i===idx); }); }
