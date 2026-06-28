@@ -172,7 +172,7 @@ body { font-family: 'Noto Sans TC', sans-serif; background: var(--cream); color:
 .mi-card { background:var(--white); border:1px solid var(--cream-dark); border-radius:var(--radius-sm); overflow:hidden; box-shadow:var(--shadow); transition: box-shadow .25s ease, transform .25s ease; }
 .mi-card:hover { box-shadow:var(--shadow-hover); transform:translateY(-2px); }
 .mi-imgwrap { position:relative; width:100%; aspect-ratio:1/1; background:var(--cream-dark); overflow:hidden; }
-.mi-imgwrap img { width:100%; height:100%; object-fit:cover; object-position:center; display:block; }
+.mi-imgwrap img { width:100%; height:100%; object-fit:contain; object-position:center; display:block; }
 .mi-ph { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:8px; background: linear-gradient(135deg, var(--cream-dark) 0%, #d8cdb4 100%); color: var(--ink-soft); }
 .mi-ph-ic { font-size:36px; opacity:.45; }
 .mi-ph-lbl { font-size:12px; letter-spacing:.15em; font-weight:500; }
@@ -776,13 +776,14 @@ const DATA = {
   ],
   notices: [
     { ic:"📷", ttl:"拍攝注意事項", items:["若拍攝到其他顧客，請避免明顯正臉入鏡","拍攝時請勿影響其他顧客用餐","若需拍攝廚房、工作區或員工作業畫面，請先詢問現場人員","請勿阻擋動線或影響送餐、收桌與帶位流程","若需拍攝送餐車或活動，請依現場狀況安排"] },
-    { ic:"✏️", ttl:"內容注意事項", items:["品牌名稱請使用「平祿壽司」","分店名稱、地址、電話、訂位資訊請以店方提供為主","若有活動、優惠或限定餐點，發布前請協助確認資訊正確","若有合作標記方式，請依店方提供帳號標記","不要自行編造價格、活動內容或未確認資訊","提到限定餐點，請使用「期間限定」「近期新品」「本次推薦」等說法"] },
-    { ic:"📮", ttl:"發文／合作注意事項", items:["發文前可協助確認品牌名稱、分店資訊與活動內容是否正確","影片或貼文需保留創作者原有風格，不要求完全照稿","若為付費或互惠合作，可依雙方確認條件進行標示","發文時間可依合作前約定執行","若需延後發布，請提前通知窗口"] },
+    { ic:"✏️", ttl:"內容注意事項", items:["品牌名稱請使用「平祿壽司」","分店名稱、地址、電話、訂位資訊請以店方提供為主","若有活動、優惠或限定餐點，發布前請協助確認資訊正確","若有合作標記方式，請依店方提供帳號標記","不要自行編造價格、活動內容或未確認資訊"] },
+    { ic:"📮", ttl:"發文／合作注意事項", items:["發文前可協助確認品牌名稱、分店資訊與活動內容是否正確","影片或貼文需保留創作者原有風格，不要求完全照稿","發文時間可依合作前約定執行","若需延後發布，請提前通知窗口","免費用餐額度為 $1,500 元以內","合作貼文／影片發布滿 2 週後，請協助提供該篇內容的後台數據截圖（主要參考：觀看數、觸及人數、互動數、按讚、留言、分享、收藏等）；資料僅供平祿壽司內部合作成效評估使用，不會對外公開","用餐後，懇請協助於 Google 給予五星評論"] },
   ],
   links: {
     ig:      { lbl:"官方 Instagram", val:"@heirokusushitw",                                                          href:"https://www.instagram.com/heirokusushitw/" },
     fb:      { lbl:"官方 Facebook",  val:"平祿壽司 粉絲專頁",                                                          href:"https://www.facebook.com/faysct/?locale=zh_TW" },
     booking: { lbl:"Inline 訂位",    val:"線上訂位",                                                                   href:"https://inline.app/booking/-Lpl2tJ_OoERaB7PpmVz:inline-live-1?language=zh-tw" },
+    line:    { lbl:"官方 LINE",      val:"加入好友",                                                                   href:"https://lin.ee/5IDqwXI" },
   },
   thankyou: {
     ttl:"感謝您今天的到來",
@@ -1221,34 +1222,214 @@ sgTabsEl.addEventListener('click', function(e){
   sgPanelsEl.querySelectorAll('.sg-panel').forEach(function(p){ p.classList.toggle('active', p.getAttribute('data-sgp')===target); });
 });
 
+/* ===================================================================
+   ▌餐點資料 Google Sheet 串接（只影響「選擇今日分店」的新品上市 / 限定餐點）
+   ===================================================================
+   做法概述（適合 GitHub Pages 靜態網頁、非工程人員維護）：
+   1. 在 Google Sheet 維護餐點資料（欄位見下方說明）。
+   2. Sheet 上方選單：「檔案 → 共用 → 發布到網路」，
+      範圍選該工作表、格式選「逗號分隔值 (.csv)」，按「發布」。
+   3. 複製產生的網址，貼到下方 MENU_CONFIG.SHEET_CSV_URL。
+   4. 之後只要編輯 Sheet 內容，網頁重新整理就會更新（約數分鐘內生效）。
+
+   ▌Google Sheet 欄位（第一列為標題，順序可不同，但名稱需一致）：
+     category   : new / limited      （new=新品上市，三店共用；limited=分店限定）
+     store_id   : all / wuquan / songzhu / yongshun （limited 用；all=三店都顯示）
+     store_name : 全部 / 五權店 / 松竹店 / 永順店 （僅備註用，程式以 store_id 為準）
+     name       : 餐點名稱
+     price      : 價格（純數字；留白則不顯示價格）
+     kind       : food / drink       （drink 走飲品卡片特殊樣式，不顯示價格與拍攝角度）
+     image      : Google Drive 圖片分享連結，或一般公開圖片網址
+     intro      : 餐點簡短介紹
+     angles     : 建議拍攝角度，多筆用半形逗號分隔
+     keywords   : 文案關鍵字，多筆用半形逗號分隔
+     status     : active / hidden    （hidden 不顯示）
+     sort_order : 排序（數字，越小越前面）
+
+   ▌Google Drive 圖片使用方式：
+     1. 將圖片上傳到 Google Drive。
+     2. 對圖片按右鍵 → 共用 → 一般存取權改為「知道連結的任何人」→ 檢視者。
+     3. 點「複製連結」。
+     4. 把連結貼到 Google Sheet 的 image 欄位即可。
+        支援格式：
+          https://drive.google.com/file/d/FILE_ID/view?usp=sharing
+          https://drive.google.com/open?id=FILE_ID
+        程式會自動轉成可嵌入的縮圖網址。若是一般公開圖片網址也可直接使用。
+   =================================================================== */
+var MENU_CONFIG = {
+  // ▼▼▼ 把 Google Sheet「發布到網路 → CSV」的網址貼在這裡（取代引號內整段文字）▼▼▼
+  //   範例：https://docs.google.com/spreadsheets/d/e/2PACX-xxxxxxxxxxxx/pub?gid=0&single=true&output=csv
+  //   尚未填寫時，網頁會自動使用下方程式內建的 DATA 資料（備援），畫面照常顯示。
+  SHEET_CSV_URL: 'https://docs.google.com/spreadsheets/d/e/2PACX-1vR6Ul4Wa8dKAuuu1sFm9CwGou21XivcCeD9lqgNOo6Dp2mGFOe7oKXcA8Dg3fjSA8jOydUSDqHDoi47/pub?output=csv'
+};
+
+/* 將 Google Drive 分享連結自動轉成可在 <img> 顯示的網址；非 Drive 連結原樣回傳 */
+function _resolveImg(url){
+  if(!url) return '';
+  url = String(url).trim();
+  var id = '';
+  var m1 = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);  // .../file/d/FILE_ID/view
+  var m2 = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);      // ...open?id=FILE_ID 或 uc?id=FILE_ID
+  if(m1)      id = m1[1];
+  else if(m2) id = m2[1];
+  if(id){
+    // thumbnail 格式目前最穩定可被外部網頁嵌入；sz=w800 兼顧清晰度與載入速度
+    return 'https://drive.google.com/thumbnail?id=' + id + '&sz=w800';
+  }
+  return url; // 一般公開圖片網址或本機 assets 相對路徑
+}
+
+/* 把「逗號分隔字串」轉成去空白、去空項的陣列（給 angles / keywords 用）*/
+function _splitList(s){
+  if(!s) return [];
+  return String(s).split(',').map(function(x){ return x.trim(); }).filter(function(x){ return x.length; });
+}
+function _toSortNum(s){ var n = parseFloat(s); return isNaN(n) ? 9999 : n; }
+
+/* 健全的 CSV 解析（支援欄位內含逗號、換行、雙引號）*/
+function _parseCSV(text){
+  var rows=[], row=[], field='', i=0, inQ=false, c;
+  text = String(text).replace(/\r\n/g,'\n').replace(/\r/g,'\n');
+  while(i < text.length){
+    c = text[i];
+    if(inQ){
+      if(c === '"'){
+        if(text[i+1] === '"'){ field+='"'; i+=2; continue; }
+        inQ=false; i++; continue;
+      }
+      field+=c; i++; continue;
+    }
+    if(c === '"'){ inQ=true; i++; continue; }
+    if(c === ','){ row.push(field); field=''; i++; continue; }
+    if(c === '\n'){ row.push(field); rows.push(row); row=[]; field=''; i++; continue; }
+    field+=c; i++;
+  }
+  if(field !== '' || row.length){ row.push(field); rows.push(row); }
+  return rows;
+}
+
+/* 以第一列為標題，把 CSV 列轉成物件陣列（標題大小寫不敏感）*/
+function _rowsToObjects(rows){
+  if(!rows.length) return [];
+  var headers = rows[0].map(function(h){ return (h||'').trim().toLowerCase(); });
+  var out=[];
+  for(var r=1; r<rows.length; r++){
+    var cells = rows[r] || [];
+    var allEmpty = cells.every(function(x){ return x==null || String(x).trim()===''; });
+    if(allEmpty) continue;
+    var obj={};
+    for(var k=0;k<headers.length;k++){ obj[headers[k]] = cells[k]!=null ? String(cells[k]).trim() : ''; }
+    out.push(obj);
+  }
+  return out;
+}
+
+/* 把 Sheet 資料套用到 DATA.menuNew / DATA.menuLimited（含顯示規則）*/
+function _applySheetRows(rows){
+  var objs = _rowsToObjects(rows);
+  if(!objs.length) return false; // 沒有任何資料列 → 不覆蓋，維持備援
+  var newArr = [];
+  var lim = { wuquan:[], songzhu:[], yongshun:[] };
+  objs.forEach(function(o){
+    if((o.status||'').toLowerCase() === 'hidden') return;        // status=hidden 不顯示
+    var cat = (o.category||'').toLowerCase();
+    var item = {
+      name:   o.name || '',
+      price:  (o.price==null ? '' : String(o.price).trim()),     // 留白 → 卡片不顯示價格
+      img:    o.image || '',
+      intro:  o.intro || '',
+      kind:   (o.kind||'').toLowerCase(),                        // drink → 飲品特殊樣式
+      angles: _splitList(o.angles),
+      kws:    _splitList(o.keywords),
+      _sort:  _toSortNum(o.sort_order)
+    };
+    if(cat === 'new'){
+      newArr.push(item);                                         // 新品：三店共用
+    } else if(cat === 'limited'){
+      var sid = (o.store_id||'').toLowerCase();
+      if(sid === 'all'){ ['wuquan','songzhu','yongshun'].forEach(function(s){ lim[s].push(item); }); }
+      else if(lim[sid]){ lim[sid].push(item); }
+    }
+  });
+  var bySort = function(a,b){ return a._sort - b._sort; };       // sort_order 由小到大
+  newArr.sort(bySort);
+  Object.keys(lim).forEach(function(s){ lim[s].sort(bySort); });
+  DATA.menuNew = newArr;
+  DATA.menuLimited = lim;
+  return true;
+}
+
+/* ── localStorage 快取：成功讀過一次 Sheet 後存起來 ──
+   目的：下次開啟或斷網時，先用上次存的 Sheet 資料秒開、離線也有內容；
+        有網路時再背景抓最新資料覆蓋。存的是「文字資料」，不含圖片本身。 */
+var MENU_CACHE_KEY = 'heiroku_menu_cache_v1';
+function _saveMenuCache(){
+  try{
+    localStorage.setItem(MENU_CACHE_KEY, JSON.stringify({
+      ts: Date.now(), menuNew: DATA.menuNew, menuLimited: DATA.menuLimited
+    }));
+  }catch(e){ /* localStorage 不可用（如無痕模式）時略過，不影響功能 */ }
+}
+function _loadMenuCache(){
+  try{
+    var obj = JSON.parse(localStorage.getItem(MENU_CACHE_KEY) || 'null');
+    if(obj && obj.menuNew && obj.menuLimited){
+      DATA.menuNew = obj.menuNew;
+      DATA.menuLimited = obj.menuLimited;
+      return true;
+    }
+  }catch(e){ /* 解析失敗則忽略，沿用程式內建 DATA */ }
+  return false;
+}
+
+/* 抓取 Google Sheet（CSV）。成功→覆蓋 DATA、存快取並重繪；失敗→靜默保留現有資料（快取或內建備援） */
+function _fetchMenuFromSheet(){
+  var url = MENU_CONFIG.SHEET_CSV_URL;
+  // 尚未設定連結（仍是 placeholder）→ 不發請求，直接用 DATA 備援
+  if(!url || url.indexOf('PASTE_') === 0 || url.indexOf('docs.google.com') === -1){ return; }
+  fetch(url, { cache:'no-store' })
+    .then(function(res){ if(!res.ok) throw new Error('HTTP '+res.status); return res.text(); })
+    .then(function(text){
+      if(_applySheetRows(_parseCSV(text))){ _saveMenuCache(); _rerenderMenus(); }
+    })
+    .catch(function(err){
+      // Google Sheet 讀取失敗（如斷網）：保留現有資料（上次快取或內建備援），畫面不受影響
+      console.warn('[menu] Google Sheet 讀取失敗，沿用快取或內建備援資料：', err);
+    });
+}
+
+/* 只重繪三間分店的餐點面板（不動其他區塊），供 Sheet 載入成功後呼叫 */
+function _rerenderMenus(){
+  document.querySelectorAll('[data-menu-wrap]').forEach(function(w){
+    w.innerHTML = _renderMenuPanels(w.getAttribute('data-menu-wrap'));
+  });
+}
+
 // Stores（內含推薦拍攝餐點子區：新品上市 / 限定餐點 切換）
 function _miCard(m, isLim){
   var altSafe=(m.name||'').replace(/"/g,'&quot;');
-  var srcSafe=(m.img||'').replace(/"/g,'&quot;');
+  // 圖片來源：自動把 Google Drive 分享連結轉成可顯示網址；一般網址 / 本機路徑原樣使用
+  var srcSafe=_resolveImg(m.img||'').replace(/"/g,'&quot;');
   var isDrink = (m.kind === 'drink');
   var introHtml = m.intro ? '<div class="mi-intro">'+m.intro+'</div>' : '<div class="mi-intro mi-empty">（餐點簡短介紹待補）</div>';
-  var anglesHtml = (m.angles && m.angles.length)
-    ? '<ul class="mi-angles">'+m.angles.map(function(a){ return '<li>'+a+'</li>'; }).join('')+'</ul>'
-    : '<div class="mi-empty">（建議拍攝角度待補）</div>';
-  var kwsHtml = (m.kws && m.kws.length)
-    ? '<div class="mi-kws">'+m.kws.map(function(k){ return '<span class="mi-kw'+(isLim?' lim':'')+'">'+k+'</span>'; }).join('')+'</div>'
-    : '<div class="mi-empty">（文案關鍵字待補）</div>';
   var ttlCls = isLim ? ' lim' : '';
-  // 價格區：飲品改用金色「飲品」chip；其他維持 $價格
+  // 價格區：飲品改用金色「飲品」chip；其他維持 $價格；price 留白則不顯示價格
+  var hasPrice = (m.price !== '' && m.price !== null && m.price !== undefined);
   var priceHtml = isDrink
     ? '<span class="mi-tag-drink">飲品</span>'
-    : '<div class="mi-price'+(isLim?' lim':'')+'">$'+m.price+'</div>';
-  // 建議拍攝角度：飲品省略整段
-  var anglesSection = isDrink
+    : (hasPrice ? '<div class="mi-price'+(isLim?' lim':'')+'">$'+m.price+'</div>' : '');
+  // 建議拍攝角度：飲品省略整段；angles 欄位留空白也整段不顯示（由各餐點自行決定是否提供）
+  var hasAngles = (m.angles && m.angles.length);
+  var anglesSection = (isDrink || !hasAngles)
     ? ''
-    : '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">建議拍攝角度</div>'+anglesHtml+'</div>';
+    : '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">建議拍攝角度</div><ul class="mi-angles">'+m.angles.map(function(a){ return '<li>'+a+'</li>'; }).join('')+'</ul></div>';
+  // 文案關鍵字：已依需求從卡片移除，不再顯示（Sheet keywords 欄位即使有值也不會出現）
   return '<div class="mi-card'+(isDrink?' drink':'')+'">'
     + '<div class="mi-imgwrap"><img src="'+srcSafe+'" alt="'+altSafe+'" loading="lazy" onerror="_miFallback(this)"></div>'
     + '<div class="mi-body">'
     +   '<div class="mi-head"><div class="mi-name">'+m.name+'</div>'+priceHtml+'</div>'
     +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">餐點簡短介紹</div>'+introHtml+'</div>'
     +   anglesSection
-    +   '<div class="mi-section"><div class="mi-sec-ttl'+ttlCls+'">文案關鍵字</div>'+kwsHtml+'</div>'
     + '</div>'
     + '</div>';
 }
@@ -1266,6 +1447,8 @@ function _renderMenuPanels(storeId){
     + '<div class="mpanel"        data-mp-store="'+storeId+'" data-mp-type="limited"><div class="menu-grid">'+limCards+'</div></div>';
 }
 
+// 首次繪製前，若有上次成功讀取的 Sheet 快取，先套用（秒開、離線也有最新一次內容）
+_loadMenuCache();
 var stEl=document.getElementById('store-tabs'), scEl=document.getElementById('store-cards');
 DATA.stores.forEach(function(s,i){
   stEl.innerHTML+='<button class="tab-btn'+(i===0?' active':'')+'" onclick="switchStore('+i+')">'+s.name+'</button>';
@@ -1282,7 +1465,7 @@ DATA.stores.forEach(function(s,i){
     +'<div class="sc-sub">🏮 空間風格</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:8px">'+s.style+'</div>'
     +'<div class="sc-sub">🥤 飲料自助吧</div><div style="font-size:13px;color:var(--ink-mid);line-height:1.7;margin-bottom:12px">'+s.drinks+'</div>'
     +'<div class="sc-sub">✨ 分店特色</div><div class="chips">'+s.features.map(function(f){ return '<span class="chip chip-r">'+f+'</span>'; }).join('')+'</div>'
-    +'<div class="sc-sub">🍣 推薦拍攝餐點</div>'+_renderMenuPanels(s.id)
+    +'<div class="sc-sub">🍣 推薦拍攝餐點</div><div class="menu-wrap" data-menu-wrap="'+s.id+'">'+_renderMenuPanels(s.id)+'</div>'
     +'</div></div>';
 });
 
@@ -1299,6 +1482,9 @@ scEl.addEventListener('click', function(e){
   });
 });
 
+// 先以內建 DATA 完成上方渲染（畫面不會空白），再嘗試讀取 Google Sheet 覆蓋
+_fetchMenuFromSheet();
+
 // Checklist
 var clEl=document.getElementById('cl-wrap');
 DATA.checklist.forEach(function(cat){ clEl.innerHTML+='<div class="cl-cat"><div class="cl-cat-hd">'+cat.cat+'</div>'+cat.items.map(function(it){ return '<div class="cl-item" onclick="toggleCheck(this)"><div class="cl-box">✓</div><div class="cl-text">'+it.t+'</div>'+(it.n?'<div class="cl-note">'+it.n+'</div>':'')+'</div>'; }).join('')+'</div>'; });
@@ -1312,7 +1498,7 @@ var accEl=document.getElementById('acc');
 DATA.notices.forEach(function(n,i){ accEl.innerHTML+='<div class="acc-item" id="acc-'+i+'"><button class="acc-toggle" onclick="toggleAcc('+i+')"><div class="acc-left"><span class="acc-ic">'+n.ic+'</span><span class="acc-ttl">'+n.ttl+'</span></div><span class="acc-arr">▼</span></button><div class="acc-body" id="acc-body-'+i+'"><div class="acc-inner"><ul class="acc-list">'+n.items.map(function(it){ return '<li>'+it+'</li>'; }).join('')+'</ul></div></div></div>'; });
 
 // Links
-var lgEl=document.getElementById('links-grid'), lgIc={ig:'📷',fb:'📘',booking:'📅'};
+var lgEl=document.getElementById('links-grid'), lgIc={ig:'📷',fb:'📘',booking:'📅',line:'💬'};
 Object.keys(DATA.links).forEach(function(k){
   var v=DATA.links[k];
   var hasHref = v.href ? true : false;
